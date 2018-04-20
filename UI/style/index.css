@@ -44,7 +44,8 @@ span {
     margin: 1px;
 }
 
-input[type=submit] {
+input[type=submit],
+.lgsubmit {
     background: seagreen;
     color: whitesmoke;
     padding: 5px 15px;
@@ -53,7 +54,7 @@ input[type=submit] {
     font-weight: bold;
 }
 
-input[type=submit]:hover,
+.lgsubmit:hover,
 #sgsubmit:hover {
     background-color: rgba(94, 255, 0, 0.329);
     color: black;
@@ -141,4 +142,3 @@ label {
     border-bottom-right-radius: 3px;
     border-bottom-left-radius: 3px;
 }
-
