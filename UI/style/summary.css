@@ -118,13 +118,16 @@ p button {
   font-size: 30px;
   margin-left: 2.7em;
 }
+
 .item3 {
   grid-area: footer;
   background-color: rgba(140, 233, 116, 0.938);;
 }
+
 .main1 {
   grid-area: main1;
 }
+
 .main2 {
   grid-area: main2;
 }
@@ -198,11 +201,9 @@ p button {
   }
 
   .topnav input[type=text] {
-    border: 1px solid #ccc;  
+    border: 1px solid #ccc;
   }
 }
-
-
 
 @media screen and (max-width: 610px) {
   .grid-container {
@@ -276,7 +277,7 @@ p button {
   }
 
   .topnav input[type=text] {
-    border: 1px solid #ccc;  
+    border: 1px solid #ccc;
   }
 }
 
