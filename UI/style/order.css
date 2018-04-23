@@ -188,8 +188,19 @@ h1 {
     height: 2em;
 }
 
+#deletebtn {
+    margin-bottom: 1em;
+    background-color: red;
+    color: #746303;
+    padding: 2px 15px;
+    border-radius: 0px 5px 5px 0px;
+    cursor: pointer;
+    font-weight: bold;
+    height: 2em;
+}
+
 #orderbtn:hover {
-    background-image: -webkit-gradient(linear, left top, left bottom, from(#86f3c9), to(#65da92));
+    background-image: -webkit-gradient(linear, left top, left bottom, from(green), to(#65da92));
     background-image: -moz-linear-gradient(top left 90deg, #b6e2ff 0%, #6ec2e8 100%);
     background-image: linear-gradient(top left 90deg, #b6e2ff 0%, #6ec2e8 100%);
 }
@@ -204,4 +215,3 @@ p button {
 .item3, h1 {
     font-weight: bold;
 }
-
