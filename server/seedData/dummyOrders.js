@@ -1,22 +1,22 @@
 const orders = [
   {
-    id: 1,
+    orderId: 1,
     meals: [],
   },
   {
-    id: 2,
+    orderId: 2,
     meals: [],
   },
   {
-    id: 3,
+    orderId: 3,
     meals: [],
   },
   {
-    id: 4,
+    orderId: 4,
     meals: [],
   },
   {
-    id: 5,
+    orderId: 5,
     meals: [],
   },
 ];
