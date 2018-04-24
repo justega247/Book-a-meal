@@ -8,7 +8,7 @@ const { expect } = chai;
 
 describe('GET /meals', () => {
 
-  it('should get all the mails when a valid request is made', (done)=> {
+  it('should get all the meals when a valid request is made', (done)=> {
     request(app)
       .get('/api/v1/meals')
       .expect(200)
