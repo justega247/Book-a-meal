@@ -26,20 +26,23 @@ describe('POST /signup', () => {
       .end(done);
   });
 
-  it('should not create a a new user when the username is not unique', (done) => {
-    const newUser = {
-      username: 'Alexander',
-      fullname: 'Alexy Joe',
-      password: 'nndkkmsdnm',
-      email: 'me@you.com'
-    };
+  it(
+    'should not create a a new user when the username is not unique',
+    (done) => {
+      const newUser = {
+        username: 'Alexander',
+        fullname: 'Alexy Joe',
+        password: 'nndkkmsdnm',
+        email: 'me@you.com'
+      };
 
-    request(app)
-      .post('/api/v1/users/signup')
-      .send(newUser)
-      .expect(400)
-      .end(done);
-  });
+      request(app)
+        .post('/api/v1/users/signup')
+        .send(newUser)
+        .expect(400)
+        .end(done);
+    }
+  );
 
   it('should not create a new user when the email is not unique', (done) => {
     const newUser = {
