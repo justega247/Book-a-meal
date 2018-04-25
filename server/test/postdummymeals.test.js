@@ -7,13 +7,12 @@ import app from '../../server/app';
 const { expect } = chai;
 
 describe('POST /meals', () => {
-
   it('should add a new meal when valid data is sent', (done) => {
     const newMeal = {
-      name: "Egusi and Pounded yam",
-      category: "correct",
+      name: 'Egusi and Pounded yam',
+      category: 'correct',
       price: 750,
-      image: "egusi.jpg"
+      image: 'egusi.jpg'
     };
 
     request(app)
@@ -24,16 +23,17 @@ describe('POST /meals', () => {
         expect(res.body.details.name).to.equal(newMeal.name);
         expect(res.body.details.category).to.equal(newMeal.category);
         expect(res.body).to.be.an('object');
+        expect(meals.length).to.equal(10);
       })
       .end(done);
   });
 
   it('should not add a new meal when the meal name already exists', (done) => {
     const newMeal = {
-      name: "Egusi and Pounded yam",
-      category: "correct",
+      name: 'Egusi and Pounded yam',
+      category: 'correct',
       price: 750,
-      image: "egusi.jpg"
+      image: 'egusi.jpg'
     };
 
     request(app)
@@ -48,10 +48,10 @@ describe('POST /meals', () => {
 
   it('should not add a new meal when no name is sent', (done) => {
     const newMeal = {
-      name: "",
-      category: "correct",
+      name: '',
+      category: 'correct',
       price: 750,
-      image: "egusi.jpg"
+      image: 'egusi.jpg'
     };
 
     request(app)
@@ -66,10 +66,10 @@ describe('POST /meals', () => {
 
   it('should not add a new meal when no category is specified', (done) => {
     const newMeal = {
-      name: "Yam porridge",
-      category: "",
+      name: 'Yam porridge',
+      category: '',
       price: 750,
-      image: "egusi.jpg"
+      image: 'egusi.jpg'
     };
 
     request(app)
@@ -81,5 +81,4 @@ describe('POST /meals', () => {
       })
       .end(done);
   });
-
 });
