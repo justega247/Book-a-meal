@@ -1,5 +1,6 @@
-import meals from '../seedData/dummyMeal';
+import menu from '../seedData/dummyMenu';
 
+let mealMenu;
 /**
  * @class Menu
  */
@@ -14,27 +15,32 @@ class Menu {
     const shuffle = (array) => {
       let tmp;
       let current;
-      let top = array.length;
-      if(top) {
-        while(--top) {
-          current = Math.floor(Math.random() * (top + 1));
-          tmp = array[current];
-          array[current] = array[top];
-          array[top] = tmp;
-        }
+      let top = array.length - 1;
+
+      while (top) {
+        current = Math.floor(Math.random() * (top + 1));
+        tmp = array[current];
+        array[current] = array[top];
+        array[top] = tmp;
+        top -= 1;
       }
       return array;
-    }
-    let mealshuffled = shuffle(meals);
+    };
 
-    if (mealshuffled.length > 2) {
-      return res.status(200).json({
-        message: 'The menu for the day',
-        menu: mealshuffled.slice(2)});
+    mealMenu = req.body.meals;
+
+    if (mealMenu.length < 3) {
+      return res.status(400).json({
+        message: 'You need more meals to set up a menu'
+      });
     }
-    return res.status(400).json({
-      message: 'Sorry no menu for today'
+    let mealshuffled = shuffle(mealMenu).slice(2);
+
+    return res.status(200).json({
+      message: 'The menu for the day',
+      menu: menu.concat(mealshuffled)
     });
+
   };
 };
 

@@ -7,7 +7,7 @@
     "start": "babel-node server/bin/www",
     "start:dev": "nodemon --exec babel-node server/bin/www",
     "lint": "eslint server/**/*.js --fix",
-    "test": "mocha --compilers js:babel-core/register server/**/*.test.js",
+    "test": "mocha --require babel-core/register server/**/*.test.js --exit",
     "test-watch": "nodemon --exec \"npm test\"",
     "cover": "istanbul cover _mocha",
     "coveralls": "npm run cover -- --report lcovonly && cat ./coverage/lcov.info | coveralls"
