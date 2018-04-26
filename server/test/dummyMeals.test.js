@@ -17,4 +17,21 @@ describe('GET /meals', () => {
       })
       .end(done);
   });
+
+  describe('#when meal array is empty', () => {
+    before(() => {
+      meals.splice(0);
+    });
+
+    it('should return an empty array when there is no meal', (done) => {
+      request(app)
+        .get('/api/v1/meals')
+        .expect(200)
+        .expect((res) => {
+          expect(res.body.message).to.equal('Sorry no available meal');
+          expect(res.body.meals).to.have.lengthOf(0);
+        })
+        .end(done);
+    });
+  });
 });
