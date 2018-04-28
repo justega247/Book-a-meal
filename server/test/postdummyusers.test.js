@@ -18,7 +18,7 @@ describe('POST /signup', () => {
     request(app)
       .post('/api/v1/users/signup')
       .send(newUser)
-      .expect(200)
+      .expect(201)
       .expect((res) => {
         expect(res.body.username).to.equal(newUser.username);
         expect(users.length).to.equal(5);
