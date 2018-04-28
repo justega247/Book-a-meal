@@ -10,7 +10,7 @@ class Meals {
  * @param {param} res
  */
   static deleteMeal(req, res) {
-    const mealId = req.body.mealId || req.params.mealId;
+    const mealId = parseInt(req.params.mealId);
 
     const findMealWithId = meal => meal.mealId === mealId;
 
