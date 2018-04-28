@@ -13,13 +13,12 @@ describe('PUT /', () => {
   it('should return a modified order if valid data is sent', (done) => {
 
     changeOrder = {
-      orderId: 2,
       addOrder: [1,3,7],
       deleteOrder: [2,4]
     };
 
     request(app)
-      .put('/api/v1/orders/:orderId')
+      .put('/api/v1/orders/2')
       .send(changeOrder)
       .expect(200)
       .expect((res) => {
@@ -33,13 +32,12 @@ describe('PUT /', () => {
   it('should throw an error for an invalid orderId', (done) => {
 
     changeOrder = {
-      orderId: 22,
       addOrder: [1,3,7],
       deleteOrder: [2,4]
     };
 
     request(app)
-      .put('/api/v1/orders/:orderId')
+      .put('/api/v1/orders/22')
       .send(changeOrder)
       .expect(400)
       .expect((res) => {

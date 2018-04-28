@@ -1,6 +1,8 @@
 import orders from '../seedData/dummyOrders';
 import meals from '../seedData/dummyMeal';
 
+
+
 /**
  * @class Orders
  */
@@ -11,14 +13,18 @@ class Orders {
  * @param {param} res
  */
   static putOrder(req,res) {
+    //console.log(req.params.orderId);
     let order;
+    let Id;
+    let deleteOrder;
+    let addOrder;
 
-    const orderId = req.body.orderId || req.params.orderId;
-    const deleteOrder = req.body.deleteOrder;
-    const addOrder = req.body.addOrder;
+    Id = parseInt(req.params.orderId, 10);
+    deleteOrder = req.body.deleteOrder;
+    addOrder = req.body.addOrder;
 
     for(let i = 0; i < orders.length; i += 1) {
-      if(orderId === orders[i]['orderId']) {
+      if(orders[i].orderId === Id) {
         order = orders[i]
 
         for(let j = 0; j < deleteOrder.length; j += 1) {
@@ -39,7 +45,7 @@ class Orders {
 
         return res.status(200).json({
           message: 'Your order has been modified',
-          yourNewOrder : order
+          yourNewOrder: order
         })
 
       }
