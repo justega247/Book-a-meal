@@ -9,12 +9,11 @@ const { expect } = chai;
 describe('PUT /meals/:mealId', () => {
   it('should return an error message if an invalid mealId is sent', (done) => {
     const updateMeal = {
-      mealId: 890,
       name: 'spaghetti'
     };
 
     request(app)
-      .put('/api/v1/meals/:mealId')
+      .put('/api/v1/meals/890')
       .send(updateMeal)
       .expect(404)
       .expect((res) => {
@@ -27,13 +26,12 @@ describe('PUT /meals/:mealId', () => {
     'should return an error if the update has an empty category field',
     (done) => {
       const updateMeal = {
-        mealId: 8,
         name: 'spaghetti',
         category: ''
       };
 
       request(app)
-        .put('/api/v1/meals/:mealId')
+        .put('/api/v1/meals/8')
         .send(updateMeal)
         .expect(400)
         .expect((res) => {
@@ -46,13 +44,12 @@ describe('PUT /meals/:mealId', () => {
 
   it('should return an error if the update has an empty name field', (done) => {
     const updateMeal = {
-      mealId: 8,
       name: '',
       category: 'hot'
     };
 
     request(app)
-      .put('/api/v1/meals/:mealId')
+      .put('/api/v1/meals/8')
       .send(updateMeal)
       .expect(400)
       .expect((res) => {
@@ -64,14 +61,13 @@ describe('PUT /meals/:mealId', () => {
 
   it('should update the meal when valid values are sent', (done) => {
     const updateMeal = {
-      mealId: 8,
       name: 'spaghetti',
       category: 'yummy',
       price: 900
     };
 
     request(app)
-      .put('/api/v1/meals/:mealId')
+      .put('/api/v1/meals/8')
       .send(updateMeal)
       .expect(200)
       .expect((res) => {
@@ -86,14 +82,13 @@ describe('PUT /meals/:mealId', () => {
     'should not update a field that is not changed when valid values are sent',
     (done) => {
       const updateMeal = {
-        mealId: 8,
         name: 'spaghetti',
         category: 'yummy',
         price: 900
       };
 
       request(app)
-        .put('/api/v1/meals/:mealId')
+        .put('/api/v1/meals/8')
         .send(updateMeal)
         .expect(200)
         .expect((res) => {

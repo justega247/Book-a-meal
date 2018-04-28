@@ -11,7 +11,7 @@ class Meals {
  */
   static putMeal(req, res) {
     let meal;
-    const mealId = req.body.mealId || req.params.mealId;
+    const mealId = parseInt(req.params.mealId, 10);
 
     for (let i = 0; i < meals.length; i += 1) {
       if (meals[i].mealId === mealId) {
