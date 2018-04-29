@@ -71,9 +71,9 @@ describe('PUT /meals/:mealId', () => {
       .send(updateMeal)
       .expect(200)
       .expect((res) => {
-        expect(res.body.name).to.equal(updateMeal.name);
-        expect(res.body.category).to.equal(updateMeal.category);
-        expect(res.body.price).to.equal(updateMeal.price);
+        expect(res.body.mealUpdate.name).to.equal(updateMeal.name);
+        expect(res.body.mealUpdate.category).to.equal(updateMeal.category);
+        expect(res.body.mealUpdate.price).to.equal(updateMeal.price);
       })
       .end(done);
   });
@@ -92,10 +92,10 @@ describe('PUT /meals/:mealId', () => {
         .send(updateMeal)
         .expect(200)
         .expect((res) => {
-          expect(res.body.name).to.equal(updateMeal.name);
-          expect(res.body.category).to.equal(updateMeal.category);
-          expect(res.body.price).to.equal(updateMeal.price);
-          expect(res.body.image).to.equal(meals[7].image);
+          expect(res.body.mealUpdate.name).to.equal(updateMeal.name);
+          expect(res.body.mealUpdate.category).to.equal(updateMeal.category);
+          expect(res.body.mealUpdate.price).to.equal(updateMeal.price);
+          expect(res.body.mealUpdate.image).to.equal(meals[7].image);
         })
         .end(done);
     }

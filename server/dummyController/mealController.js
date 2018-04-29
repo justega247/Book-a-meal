@@ -32,7 +32,10 @@ class Meals {
           price: req.body.price || meals[i].price,
           image: req.body.image || meals[i].image
         };
-        return res.status(200).send(meal);
+        return res.status(200).json({
+          message: 'Meal updated successfully',
+          mealUpdate: meal
+        });
       }
     }
     return res.status(404).json({
