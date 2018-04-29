@@ -1,20 +1,16 @@
-import chai from 'chai';
+import { expect } from 'chai';
 import request from 'supertest';
 
 import meals from '../seedData/dummyMeal';
-import orders from '../seedData/dummyOrders';
 import app from '../../server/app';
 
-const { expect } = chai;
 let changeOrder;
 
 describe('PUT /', () => {
-
   it('should return a modified order if valid data is sent', (done) => {
-
     changeOrder = {
-      addOrder: [1,3,7],
-      deleteOrder: [2,4]
+      addOrder: [1, 3, 7],
+      deleteOrder: [2, 4]
     };
 
     request(app)
@@ -26,14 +22,13 @@ describe('PUT /', () => {
         expect(res.body.yourNewOrder.meals).deep.to.include(meals[0]);
         expect(res.body.yourNewOrder.meals).deep.to.not.include(meals[1]);
       })
-      .end(done)
+      .end(done);
   });
 
   it('should throw an error for an invalid orderId', (done) => {
-
     changeOrder = {
-      addOrder: [1,3,7],
-      deleteOrder: [2,4]
+      addOrder: [1, 3, 7],
+      deleteOrder: [2, 4]
     };
 
     request(app)
