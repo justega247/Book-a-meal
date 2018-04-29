@@ -7,6 +7,10 @@
 
 # API Documentation
 
+# App UI Templates
+ The gh-pages branch contain the UI templates, you can view them
+ [ UI Templates ](https://justega247.github.io/Book-a-meal/UI/html/)
+
 # Prerequisites
   To run this project on your local machine, you will need to install the following applications.
 
