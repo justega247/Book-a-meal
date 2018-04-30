@@ -1,9 +1,7 @@
-import chai from 'chai';
+import { expect } from 'chai';
 import request from 'supertest';
 
 import app from '../../server/app';
-
-const { expect } = chai;
 
 describe('DELETE /:mealId', () => {
   it('should delete a meal if a valid mealId is sent', (done) => {
@@ -24,7 +22,7 @@ describe('DELETE /:mealId', () => {
       .delete('/api/v1/meals/44')
       .expect(404)
       .expect((res) => {
-        expect(res.body.message).to.equal('There is no meal with that mealId');
+        expect(res.body.message).to.equal('Sorry,there is no meal with that mealId');
       })
       .end(done);
   });
