@@ -5,19 +5,22 @@ import meals from '../seedData/dummyMeal';
  */
 class Meals {
 /**
- * @return {Object} get meals
+ * @return {Object} mealsAvailable
  * @param {param} req
  * @param {param} res
  */
-  static getMeals(req, res) {
+  static mealsAvailable(req, res) {
     if (meals.length === 0) {
       return res.status(200).json({
-        meals: [],
-        message: 'Sorry no available meal'
+        message: 'Sorry no available meal',
+        meals: []
       });
     } else if (meals.length > 0) {
       const mealsAvailable = meals.map(meal => Object.assign({}, meal));
-      return res.status(200).send(mealsAvailable);
+      return res.status(200).json({
+        message: 'Success',
+        meals: mealsAvailable
+      });
     }
     return res.status(500);
   }
