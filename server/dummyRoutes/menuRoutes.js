@@ -4,6 +4,6 @@ import Menu from '../dummyController/menuController';
 
 const router = express.Router();
 
-router.post('/', Menu.postMenu);
+router.post('/', Menu.addMenu);
 
 module.exports = router;

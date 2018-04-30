@@ -10,8 +10,7 @@ class Menu {
  * @param {param} req
  * @param {param} res
  */
-  static postMenu(req, res) {
-
+  static addMenu(req, res) {
     const shuffle = (array) => {
       let tmp;
       let current;
@@ -34,14 +33,13 @@ class Menu {
         message: 'You need more meals to set up a menu'
       });
     }
-    let mealshuffled = shuffle(mealMenu).slice(2);
+    const mealshuffled = shuffle(mealMenu).slice(2);
 
-    return res.status(200).json({
-      message: 'The menu for the day',
+    return res.status(201).json({
+      message: 'Success',
       menu: menu.concat(mealshuffled)
     });
-
-  };
-};
+  }
+}
 
 export default Menu;
