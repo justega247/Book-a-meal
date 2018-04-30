@@ -1,10 +1,8 @@
-import chai from 'chai';
+import { expect } from 'chai';
 import request from 'supertest';
 
 import meals from '../seedData/dummyMeal';
 import app from '../../server/app';
-
-const { expect } = chai;
 
 describe('PUT /meals/:mealId', () => {
   it('should return an error message if an invalid mealId is sent', (done) => {
@@ -17,7 +15,7 @@ describe('PUT /meals/:mealId', () => {
       .send(updateMeal)
       .expect(404)
       .expect((res) => {
-        expect(res.body.message).to.equal('no meal with that id exists');
+        expect(res.body.message).to.equal('Sorry,no meal with that id exists');
       })
       .end(done);
   });
@@ -36,7 +34,7 @@ describe('PUT /meals/:mealId', () => {
         .expect(400)
         .expect((res) => {
           expect(res.body.message).to
-            .equal('you cannot update to an empty value.');
+            .equal('Sorry,you have to enter valid value(s).');
         })
         .end(done);
     }
@@ -54,7 +52,7 @@ describe('PUT /meals/:mealId', () => {
       .expect(400)
       .expect((res) => {
         expect(res.body.message).to
-          .equal('you cannot update to an empty value.');
+          .equal('Sorry,you have to enter valid value(s).');
       })
       .end(done);
   });

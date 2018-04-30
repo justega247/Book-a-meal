@@ -9,7 +9,7 @@ class Meals {
  * @param {param} req
  * @param {param} res
  */
-  static putMeal(req, res) {
+  static updateMeal(req, res) {
     let meal;
     const mealId = parseInt(req.params.mealId, 10);
 
@@ -22,7 +22,7 @@ class Meals {
         for (let j = 0; j < updateValueArray.length; j += 1) {
           if (req.body[updateValueArray[j]] === '') {
             return res.status(400).json({
-              message: 'you cannot update to an empty value.'
+              message: 'Sorry,you have to enter valid value(s).'
             });
           }
         }
@@ -33,13 +33,13 @@ class Meals {
           image: req.body.image || meals[i].image
         };
         return res.status(200).json({
-          message: 'Meal updated successfully',
+          message: 'Success',
           mealUpdate: meal
         });
       }
     }
     return res.status(404).json({
-      message: 'no meal with that id exists'
+      message: 'Sorry,no meal with that id exists'
     });
   }
 }
