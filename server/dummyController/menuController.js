@@ -10,7 +10,7 @@ class Menu {
  * @param {param} req
  * @param {param} res
  */
-  static getMenu(req, res) {
+  static availableMenu(req, res) {
     const shuffle = (array) => {
       let tmp;
       let current;
@@ -29,12 +29,12 @@ class Menu {
 
     if (mealshuffled.length > 2) {
       return res.status(200).json({
-        message: 'The menu for the day',
+        message: 'Success',
         menu: mealshuffled.slice(2)
       });
     }
     return res.status(400).json({
-      message: 'Sorry no menu for today',
+      message: 'Sorry,no menu for today',
       menu: []
     });
   }
