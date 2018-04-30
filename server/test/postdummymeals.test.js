@@ -1,10 +1,8 @@
-import chai from 'chai';
+import { expect } from 'chai';
 import request from 'supertest';
 
 import meals from '../seedData/dummyMeal';
 import app from '../../server/app';
-
-const { expect } = chai;
 
 describe('POST /meals', () => {
   it('should add a new meal when valid data is sent', (done) => {
@@ -18,7 +16,7 @@ describe('POST /meals', () => {
     request(app)
       .post('/api/v1/meals/')
       .send(newMeal)
-      .expect(200)
+      .expect(201)
       .expect((res) => {
         expect(res.body.details.name).to.equal(newMeal.name);
         expect(res.body.details.category).to.equal(newMeal.category);
@@ -41,7 +39,7 @@ describe('POST /meals', () => {
       .send(newMeal)
       .expect(400)
       .expect((res) => {
-        expect(res.body.message).to.equal('Your meal name is invalid');
+        expect(res.body.message).to.equal('Sorry,that meal name is invalid');
       })
       .end(done);
   });
@@ -59,7 +57,7 @@ describe('POST /meals', () => {
       .send(newMeal)
       .expect(400)
       .expect((res) => {
-        expect(res.body.message).to.equal('Your meal name is invalid');
+        expect(res.body.message).to.equal('Sorry,that meal name is invalid');
       })
       .end(done);
   });
@@ -77,7 +75,7 @@ describe('POST /meals', () => {
       .send(newMeal)
       .expect(400)
       .expect((res) => {
-        expect(res.body.message).to.equal('Your meal category cannot be empty');
+        expect(res.body.message).to.equal('Sorry,meal category cannot be empty');
       })
       .end(done);
   });

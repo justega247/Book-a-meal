@@ -4,6 +4,6 @@ import Meals from '../dummyController/mealController';
 
 const router = express.Router();
 
-router.post('/', Meals.postMeal);
+router.post('/', Meals.addMeal);
 
 module.exports = router;
