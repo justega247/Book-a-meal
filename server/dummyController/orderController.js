@@ -9,9 +9,11 @@ class Orders {
  * @param {param} req
  * @param {param} res
  */
-  static postOrders(req, res) {
+  static addOrders(req, res) {
+    // req.body.meals is an array containing the meals you want to add.
     const mealOrder = req.body.meals;
 
+    // check to make sure at least one meal has been ordered.
     if (mealOrder.length === 0) {
       return res.status(400).json({
         message: 'You have not specified any meal to order'
@@ -21,8 +23,8 @@ class Orders {
       orderId: orders.length + 1,
       meals: mealOrder
     });
-    return res.status(200).json({
-      message: 'Here is what you ordered',
+    return res.status(201).json({
+      message: 'Success',
       yourOrder: orders[orders.length - 1]
     });
   }

@@ -1,10 +1,8 @@
-import chai from 'chai';
+import { expect } from 'chai';
 import request from 'supertest';
 
 import app from '../../server/app';
 import orders from '../seedData/dummyOrders';
-
-const { expect } = chai;
 
 describe('POST /', () => {
   it('should add a new order to the orders list', (done) => {
@@ -15,9 +13,9 @@ describe('POST /', () => {
     request(app)
       .post('/api/v1/orders/')
       .send(newOrder)
-      .expect(200)
+      .expect(201)
       .expect((res) => {
-        expect(res.body.message).to.equal('Here is what you ordered');
+        expect(res.body.message).to.equal('Success');
         expect(res.body.yourOrder).to.deep.equal(orders[orders.length - 1]);
       })
       .end(done);
