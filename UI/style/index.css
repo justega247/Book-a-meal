@@ -25,6 +25,14 @@ header {
   font-weight: bold;
 }
 
+/* table {
+  border-collapse:separate;
+  border-spacing:5em;
+} */
+/* #fgpass {
+  padding-top: 150px;
+} */
+
 span {
   font-size: 3em;
   font-weight: bold;

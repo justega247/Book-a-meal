@@ -17,6 +17,7 @@
     <a class="active" href="mealoptions.html">Mealoptions</a>
     <a href="summary.html">Summary</a>
     <a href="index.html">Logout</a>
+    <a href="javascript:void(0);" style="font-size:15px;" class="icon" onclick="myFunction()">&#9776;</a>
     <div class="search-container">
       <form action="/action_page.php">
         <input type="text" placeholder="Search.." name="search">
@@ -30,8 +31,9 @@
         <img src="https://www.seriouseats.com/recipes/assets_c/2016/05/20160503-fava-carrot-ricotta-salad-recipe-1-thumb-1500xauto-431710.jpg" alt="A meal to get you going" title="The way to a man's heart."/>
       </div>
       <div>
-        <input type="text" name="mealname" id="mealname" placeholder="name">
-        <input type="submit" value="add">
+        <div><input type="text" name="mealname" id="mealname" placeholder="name"></div>
+        <div><input type="text" name="mealprice" id="mealprice" placeholder="price"></div>
+        <div><input type="submit" value="add"></div>
       </div>
     </div>
 
@@ -63,6 +65,17 @@
     </div>
     <div class="footer">A GOOD DAY TO SERVE YOU!!!</div>
   </div>
+
+  <script>
+    function myFunction() {
+      var x = document.getElementById("topnav");
+      if (x.className === "topnav") {
+        x.className += " responsive";
+      } else {
+        x.className = "topnav";
+      }
+    }
+  </script>
 
 </body>
 </html>

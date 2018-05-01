@@ -17,6 +17,7 @@
     <a href="mealoptions.html">Mealoptions</a>
     <a class="active" href="summary.html">Summary</a>
     <a href="index.html">Logout</a>
+    <a href="javascript:void(0);" style="font-size:15px;" class="icon" onclick="myFunction()">&#9776;</a>
     <div class="search-container">
       <form action="/action_page.php">
         <input type="text" placeholder="Search.." name="search">
@@ -102,5 +103,16 @@
     </div>
     <div class="item3">Delicacy at its best!!!</div>
   </div>
+
+  <script>
+    function myFunction() {
+      var x = document.getElementById("topnav");
+      if (x.className === "topnav") {
+        x.className += " responsive";
+      } else {
+        x.className = "topnav";
+      }
+    }
+  </script>
 </body>
 </html>
