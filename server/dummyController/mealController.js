@@ -41,7 +41,7 @@ class Meals {
       } else if (req.body.category.trim() === '') {
         return res.status(400)
           .json({
-          message: 'Sorry,meal category cannot be empty'
+            message: 'Sorry,meal category cannot be empty'
           });
       }
     }
@@ -57,6 +57,44 @@ class Meals {
         message: 'Success',
         details: meals[meals.length - 1]
       });
+  }
+
+  /**
+ * @return {Object} updated meal
+ * @param {param} req
+ * @param {param} res
+ */
+  static updateMeal(req, res) {
+    const mealId = parseInt(req.params.mealId, 10);
+
+    let meal = meals.find((one) => {
+      return one.mealId === mealId;
+    })
+
+    if (meal) {
+      const updateValueArray = Object.keys(req.body);
+
+      for (let j = 0; j < updateValueArray.length; j += 1) {
+        if (req.body[updateValueArray[j]] === '') {
+          return res.status(400).json({
+            message: 'Sorry,you have to enter valid value(s).'
+          });
+        }
+      }
+      meal = {
+        name: req.body.name || meal.name,
+        category: req.body.category || meal.category,
+        price: req.body.price || meal.price,
+        image: req.body.image || meal.image
+      };
+      return res.status(200).json({
+        message: 'Success',
+        mealUpdate: meal
+      });
+    }
+    return res.status(404).json({
+      message: 'Sorry,no meal with that id exists'
+    });
   }
 }
 
