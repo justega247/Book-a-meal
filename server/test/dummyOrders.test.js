@@ -83,9 +83,7 @@ describe('PUT /', () => {
 });
 
 describe('GET /', () => {
-
   it('should return an array of all the orders made', (done) => {
-
     request(app)
       .get('/api/v1/orders/')
       .expect(200)
@@ -100,11 +98,10 @@ describe('GET /', () => {
   describe('#when no order has been made', () => {
     before(() => {
       orders.splice(0);
-    })
+    });
 
     it('should return an empty array when no orders have been made',
       (done) => {
-
         request(app)
           .get('/api/v1/orders/')
           .expect(200)
