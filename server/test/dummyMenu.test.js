@@ -2,20 +2,8 @@ import { expect } from 'chai';
 import request from 'supertest';
 
 import app from '../../server/app';
-
-describe('GET /', () => {
-
-  it('should return the menu for the day', (done) => {
-    request(app)
-      .get('/api/v1/menu/')
-      .expect(200)
-      .expect((res) => {
-        console.log('I came here');
-        expect(res.body.menu).to.be.an('array');
-      })
-      .end(done);
-  })
-});
+import meals from '../seedData/dummyMeal'
+import testMeals from '../seedData/testMeals'
 
 describe('POST /', () => {
   it('should return an array of meals', (done) => {
@@ -62,4 +50,38 @@ describe('POST /', () => {
   });
 });
 
+describe('GET /', () => {
+  before(() => {
+    meals.push(...testMeals);
+  })
 
+  it('should return an array containing the menu of the day', (done) => {
+    request(app)
+      .get('/api/v1/menu/')
+      .expect(200)
+      .expect((res) => {
+        expect(res.body.message).to.equal('Success');
+        expect(res.body.menu).to.be.an('array');
+        expect(res.body.menu).to.have.lengthOf(7);
+      })
+      .end(done);
+  });
+
+  describe('#No menu was set', () => {
+    before(() => {
+      meals.splice(2);
+    });
+
+    it('should return an error when no menu has been set', (done) => {
+      request(app)
+        .get('/api/v1/menu/')
+        .expect(400)
+        .expect((res) => {
+          expect(res.body.message).to.equal('Sorry,no menu for today');
+          expect(res.body.menu).to.be.an('array');
+          expect(res.body.menu).to.have.lengthOf(0);
+        })
+        .end(done);
+    });
+  });
+});

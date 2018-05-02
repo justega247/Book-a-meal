@@ -65,7 +65,6 @@ class Menu {
     const mealshuffled = menu.concat(shuffle(meals));
 
     if (mealshuffled.length > 2) {
-      console.log('over to the controller');
       return res.status(200).json({
         message: 'Success',
         menu: mealshuffled.slice(2)
