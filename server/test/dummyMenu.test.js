@@ -3,6 +3,20 @@ import request from 'supertest';
 
 import app from '../../server/app';
 
+describe('GET /', () => {
+
+  it('should return the menu for the day', (done) => {
+    request(app)
+      .get('/api/v1/menu/')
+      .expect(200)
+      .expect((res) => {
+        console.log('I came here');
+        expect(res.body.menu).to.be.an('array');
+      })
+      .end(done);
+  })
+});
+
 describe('POST /', () => {
   it('should return an array of meals', (done) => {
     const newMeals = {
@@ -47,4 +61,5 @@ describe('POST /', () => {
       .end(done);
   });
 });
+
 
