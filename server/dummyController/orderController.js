@@ -74,6 +74,40 @@ class Orders {
       message: 'Your orderId is invalid'
     });
   }
+
+  /**
+ * @return {Object} all orders
+ * @param {param} req
+ * @param {param} res
+ */
+  static allOrders(req, res) {
+    if (orders.length === 0) {
+      return res.status(200).json({
+        message: 'Oh! no orders made yet',
+        orders: []
+      });
+    } else if (orders.length > 0) {
+      const cost = [];
+
+      for (let i = 0; i < orders.length; i += 1) {
+        for (let j = 0; j < orders[i].meals.length; j += 1) {
+          cost.push(orders[i].meals[j].price);
+        }
+      }
+
+      const reducer = (acc, currentValue) => acc + currentValue;
+      const total = cost.reduce(reducer);
+
+      const ordersAvailable = orders.map(order => Object.assign({}, order));
+
+      return res.status(200).json({
+        message: 'Here are the orders for the day',
+        total,
+        orders: ordersAvailable
+      });
+    }
+    return res.status(500);
+  }
 }
 
 export default Orders;
