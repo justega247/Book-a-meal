@@ -48,7 +48,7 @@ describe('PUT /', () => {
   });
 
   it('should return a modified order if valid data is sent', (done) => {
-    let changeOrder = {
+    const changeOrder = {
       addOrder: [1, 3, 7],
       deleteOrder: [2, 4]
     };
@@ -66,7 +66,7 @@ describe('PUT /', () => {
   });
 
   it('should throw an error for an invalid orderId', (done) => {
-    let changeOrder = {
+    const changeOrder = {
       addOrder: [1, 3, 8],
       deleteOrder: [2, 4]
     };
