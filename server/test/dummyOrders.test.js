@@ -4,7 +4,7 @@ import request from 'supertest';
 import app from '../../server/app';
 import meals from '../seedData/dummyMeal';
 import orders from '../seedData/dummyOrders';
-import testMeals from '../seedData/testMeals'
+import testMeals from '../seedData/testMeals';
 
 describe('POST /', () => {
   it('should add a new order to the orders list', (done) => {
@@ -67,7 +67,7 @@ describe('PUT /', () => {
 
   it('should throw an error for an invalid orderId', (done) => {
     let changeOrder = {
-      addOrder: [1, 3, 7],
+      addOrder: [1, 3, 8],
       deleteOrder: [2, 4]
     };
 
