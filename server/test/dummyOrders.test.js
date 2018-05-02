@@ -93,23 +93,22 @@ describe('GET /', () => {
         expect(res.body.orders.length).to.equal(orders.length);
       })
       .end(done);
-  })
+  });
 
   describe('#when no order has been made', () => {
     before(() => {
       orders.splice(0);
     });
 
-    it('should return an empty array when no orders have been made',
-      (done) => {
-        request(app)
-          .get('/api/v1/orders/')
-          .expect(200)
-          .expect((res) => {
-            expect(res.body.message).to.equal('Oh! no orders made yet');
-            expect(res.body.orders.length).to.equal(0);
-          })
-          .end(done);
-      })
-  })
+    it('should return an empty array when no orders have been made', (done) => {
+      request(app)
+        .get('/api/v1/orders/')
+        .expect(200)
+        .expect((res) => {
+          expect(res.body.message).to.equal('Oh! no orders made yet');
+          expect(res.body.orders.length).to.equal(0);
+        })
+        .end(done);
+      });
+  });
 });
