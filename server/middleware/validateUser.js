@@ -1,4 +1,4 @@
-import validator from 'validator'
+import validator from 'validator';
 
 /**
  * @class Validate Users
@@ -36,14 +36,14 @@ class ValidateUser {
         });
     }
 
-    if (req.body.username.trim().length < 3 ) {
+    if (req.body.username.trim().length < 3) {
       return res.status(400)
         .json({
           message: 'username must be 3 characters or more'
         });
     }
 
-    if (req.body.password.trim().length < 6 ) {
+    if (req.body.password.trim().length < 6) {
       return res.status(400)
         .json({
           message: 'password must be 6 characters or more'
