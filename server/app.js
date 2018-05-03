@@ -2,10 +2,10 @@ import express from 'express';
 import logger from 'morgan';
 import bodyParser from 'body-parser';
 
-import dummymealRoutes from './dummyRoutes/mealRoutes';
-import dummymenuRoutes from './dummyRoutes/menuRoutes';
-import dummyuserRoutes from './dummyRoutes/userRoutes';
-import dummyorderRoutes from './dummyRoutes/orderRoutes';
+import mealRoutes from './Routes/mealRoutes';
+import menuRoutes from './Routes/menuRoutes';
+import userRoutes from './Routes/userRoutes';
+import orderRoutes from './Routes/orderRoutes';
 
 // Set up the express app
 const app = express();
@@ -17,10 +17,10 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.use('/api/v1/meals', dummymealRoutes);
-app.use('/api/v1/menu', dummymenuRoutes);
-app.use('/api/v1/users', dummyuserRoutes);
-app.use('/api/v1/orders', dummyorderRoutes);
+app.use('/api/v1/meals', mealRoutes);
+app.use('/api/v1/menu', menuRoutes);
+app.use('/api/v1/users', userRoutes);
+app.use('/api/v1/orders', orderRoutes);
 
 // Setup a default catch-all route that sends back a welcome message.
 app.get('*', (req, res) => res.status(200).send({

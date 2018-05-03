@@ -2,8 +2,8 @@ import { expect } from 'chai';
 import request from 'supertest';
 
 import app from '../../server/app';
-import meals from '../seedData/dummyMeal';
-import orders from '../seedData/dummyOrders';
+import meals from '../seedData/Meal';
+import orders from '../seedData/Orders';
 import testMeals from '../seedData/testMeals';
 
 describe('POST /', () => {
@@ -109,6 +109,6 @@ describe('GET /', () => {
           expect(res.body.orders.length).to.equal(0);
         })
         .end(done);
-      });
+    });
   });
 });

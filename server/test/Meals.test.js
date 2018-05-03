@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import request from 'supertest';
 
-import meals from '../seedData/dummyMeal';
+import meals from '../seedData/Meal';
 import app from '../../server/app';
 
 describe('GET /meals', () => {
@@ -36,7 +36,6 @@ describe('GET /meals', () => {
 });
 
 describe('POST /meals', () => {
-
   it('should add a new meal when valid data is sent', (done) => {
     const newMeal = {
       name: 'Egusi and Pounded yam',
@@ -107,7 +106,8 @@ describe('POST /meals', () => {
       .send(newMeal)
       .expect(400)
       .expect((res) => {
-        expect(res.body.message).to.equal('Sorry,meal category cannot be empty');
+        expect(res.body.message).to
+          .equal('Sorry,meal category cannot be empty');
       })
       .end(done);
   });
@@ -212,7 +212,6 @@ describe('PUT /meals/:mealId', () => {
 
 describe('DELETE /:mealId', () => {
   it('should delete a meal if a valid mealId is sent', (done) => {
-
     request(app)
       .delete('/api/v1/meals/1')
       .expect(200)
@@ -224,12 +223,12 @@ describe('DELETE /:mealId', () => {
   });
 
   it('should return an error message if an invalid mealId is sent', (done) => {
-
     request(app)
       .delete('/api/v1/meals/44')
       .expect(404)
       .expect((res) => {
-        expect(res.body.message).to.equal('Sorry,there is no meal with that mealId');
+        expect(res.body.message).to
+          .equal('Sorry,there is no meal with that mealId');
       })
       .end(done);
   });

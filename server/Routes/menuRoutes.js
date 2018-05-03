@@ -1,6 +1,6 @@
 import express from 'express';
 
-import Menu from '../dummyController/menuController';
+import Menu from '../Controller/menuController';
 
 const router = express.Router();
 

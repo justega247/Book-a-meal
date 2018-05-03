@@ -1,4 +1,4 @@
-import meals from '../seedData/dummyMeal';
+import meals from '../seedData/Meal';
 
 /**
  * @class Meals
@@ -31,6 +31,7 @@ class Meals {
  * @param {param} res
  */
   static addMeal(req, res) {
+    // Validate meal creation data
     for (let i = 0; i < meals.length; i += 1) {
       if (req.body.name.trim() === '' ||
        req.body.name.trim() === meals[i].name) {
@@ -45,6 +46,7 @@ class Meals {
           });
       }
     }
+    // Create the meal and push into the meals array
     meals.push({
       mealId: meals.length + 1,
       name: req.body.name,
@@ -67,13 +69,12 @@ class Meals {
   static updateMeal(req, res) {
     const mealId = parseInt(req.params.mealId, 10);
 
-    let meal = meals.find((one) => {
-      return one.mealId === mealId;
-    })
+    let meal = meals.find(one => one.mealId === mealId);
 
     if (meal) {
       const updateValueArray = Object.keys(req.body);
 
+      // A check to make sure none of the input data is an empty string
       for (let j = 0; j < updateValueArray.length; j += 1) {
         if (req.body[updateValueArray[j]] === '') {
           return res.status(400).json({
@@ -81,6 +82,7 @@ class Meals {
           });
         }
       }
+      // Update the valid specified fields of the meal
       meal = {
         name: req.body.name || meal.name,
         category: req.body.category || meal.category,
@@ -103,8 +105,7 @@ class Meals {
  * @param {param} res
  */
   static removeMeal(req, res) {
-
-    const mealId = parseInt(req.params.mealId);
+    const mealId = parseInt(req.params.mealId, 10);
     const findMealWithId = meal => meal.mealId === mealId;
     const index = meals.findIndex(findMealWithId);
 

@@ -2,8 +2,8 @@ import { expect } from 'chai';
 import request from 'supertest';
 
 import app from '../../server/app';
-import meals from '../seedData/dummyMeal'
-import testMeals from '../seedData/testMeals'
+import meals from '../seedData/Meal';
+import testMeals from '../seedData/testMeals';
 
 describe('POST /', () => {
   it('should return an array of meals', (done) => {
@@ -53,7 +53,7 @@ describe('POST /', () => {
 describe('GET /', () => {
   before(() => {
     meals.push(...testMeals);
-  })
+  });
 
   it('should return an array containing the menu of the day', (done) => {
     request(app)

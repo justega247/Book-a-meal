@@ -1,5 +1,5 @@
-import menu from '../seedData/dummyMenu';
-import meals from '../seedData/dummyMeal';
+import menu from '../seedData/Menu';
+import meals from '../seedData/Meal';
 
 let mealMenu;
 /**
@@ -12,6 +12,7 @@ class Menu {
  * @param {param} res
  */
   static addMenu(req, res) {
+    // A shuffle function to randomize the output on any API call
     const shuffle = (array) => {
       let tmp;
       let current;
@@ -48,6 +49,7 @@ class Menu {
  * @param {param} res
  */
   static availableMenu(req, res) {
+    // A shuffle function to randomize the output on any API call
     const shuffle = (array) => {
       let tmp;
       let current;
