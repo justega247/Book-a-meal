@@ -2,6 +2,8 @@
 node_modules/
 
 .env
+.vscode
 .vscode/*
+npm-debug.log
 npm-debug.log.*
 PullRequestTemplate.md
