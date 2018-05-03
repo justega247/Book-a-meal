@@ -1,6 +1,6 @@
 import express from 'express';
 
-import Meals from '../Controller/mealController';
+import Meals from '../controller/mealController';
 import ValidateMeal from '../middleware/validateMeal';
 
 const router = express.Router();
