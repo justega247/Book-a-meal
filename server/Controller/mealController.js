@@ -33,16 +33,10 @@ class Meals {
   static addMeal(req, res) {
     // Validate meal creation data
     for (let i = 0; i < meals.length; i += 1) {
-      if (req.body.name.trim() === '' ||
-       req.body.name.trim() === meals[i].name) {
+      if (req.body.name.trim() === meals[i].name) {
         return res.status(400)
           .json({
             message: 'Sorry,that meal name is invalid'
-          });
-      } else if (req.body.category.trim() === '') {
-        return res.status(400)
-          .json({
-            message: 'Sorry,meal category cannot be empty'
           });
       }
     }

@@ -52,6 +52,7 @@ describe('POST /', () => {
 
 describe('GET /', () => {
   before(() => {
+    meals.splice(0);
     meals.push(...testMeals);
   });
 

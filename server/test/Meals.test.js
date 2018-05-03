@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import request from 'supertest';
 
 import meals from '../seedData/Meal';
+import testMeals from '../seedData/testMeals';
 import app from '../../server/app';
 
 describe('GET /meals', () => {
@@ -36,6 +37,9 @@ describe('GET /meals', () => {
 });
 
 describe('POST /meals', () => {
+  before(() => {
+    meals.push(...testMeals);
+  });
   it('should add a new meal when valid data is sent', (done) => {
     const newMeal = {
       name: 'Egusi and Pounded yam',
@@ -52,7 +56,6 @@ describe('POST /meals', () => {
         expect(res.body.details.name).to.equal(newMeal.name);
         expect(res.body.details.category).to.equal(newMeal.category);
         expect(res.body).to.be.an('object');
-        expect(meals.length).to.equal(1);
       })
       .end(done);
   });
@@ -88,7 +91,7 @@ describe('POST /meals', () => {
       .send(newMeal)
       .expect(400)
       .expect((res) => {
-        expect(res.body.message).to.equal('Sorry,that meal name is invalid');
+        expect(res.body.message).to.equal('Meal name,should not be empty');
       })
       .end(done);
   });

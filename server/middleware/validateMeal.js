@@ -1,4 +1,4 @@
-import { body } from 'express-validator/check';
+import validator from 'validator'
 
 /**
  * @class Validate Meal
@@ -14,28 +14,42 @@ class ValidateMeal {
    * @return {void}
    */
   static mealData(req, res, next) {
-    if (!body('name') || body('name').trim() === '') {
+    if (!req.body.name || req.body.name.trim() === '') {
       return res.status(400)
         .json({
           message: 'Meal name,should not be empty'
         });
     }
 
-    if (!isAlpha(body('name'))) {
+    if (req.body.category.trim() === '') {
       return res.status(400)
         .json({
-          message: 'Your meal name contains invalid characters'
+          message: 'Sorry,meal category cannot be empty'
         });
     }
 
-    if (!Numeric(body('price'))) {
+    if (!req.body.price) {
+      return res.status(400)
+        .json({
+          message: 'Please specify a price'
+        });
+    }
+
+    if (req.body.name.trim().match(/[\w\s]+/) === false) {
+      return res.status(400)
+        .json({
+          message: 'Sorry,that meal name is invalid'
+        });
+    }
+
+    if (!Number.isInteger(req.body.price)) {
       return res.status(400)
         .json({
           message: 'Your price can only be numeric'
         });
     }
 
-    if (!isAlpha(body('category'))) {
+    if (!validator.isAlpha(req.body.category)) {
       return res.status(400)
         .json({
           message: 'Please,specify a proper category'

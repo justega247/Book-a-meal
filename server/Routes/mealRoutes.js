@@ -1,11 +1,12 @@
 import express from 'express';
 
 import Meals from '../Controller/mealController';
+import ValidateMeal from '../middleware/validateMeal'
 
 const router = express.Router();
 
 router.get('/', Meals.mealsAvailable);
-router.post('/', Meals.addMeal);
+router.post('/', ValidateMeal.mealData, Meals.addMeal);
 router.put('/:mealId', Meals.updateMeal);
 router.delete('/:mealId', Meals.removeMeal);
 
