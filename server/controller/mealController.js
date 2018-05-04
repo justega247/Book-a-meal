@@ -65,7 +65,7 @@ class Meals {
       if (req.body.name.trim() === meals[i].name) {
         return res.status(400)
           .json({
-            message: 'Sorry,that meal name is already in use'
+            message: 'Sorry,that meal name already exists'
           });
       }
     }

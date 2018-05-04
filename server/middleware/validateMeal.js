@@ -67,7 +67,7 @@ class ValidateMeal {
    *
    * @return {void}
    */
-  static mealUpdateData(req, res, next) {
+  static mealUpdate(req, res, next) {
     if (req.body.category && req.body.category.trim() === '') {
       return res.status(400)
         .json({

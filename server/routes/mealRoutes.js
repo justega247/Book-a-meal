@@ -7,7 +7,7 @@ const router = express.Router();
 
 router.get('/', Meals.retrieveMeals);
 router.post('/', ValidateMeal.mealData, Meals.addMeal);
-router.put('/:mealId', ValidateMeal.mealUpdateData, Meals.updateMeal);
+router.put('/:mealId', ValidateMeal.mealUpdate, Meals.updateMeal);
 router.delete('/:mealId', Meals.removeMeal);
 
 module.exports = router;
