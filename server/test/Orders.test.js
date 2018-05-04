@@ -2,8 +2,8 @@ import { expect } from 'chai';
 import request from 'supertest';
 
 import app from '../../server/app';
-import meals from '../seedData/Meal';
-import orders from '../seedData/Orders';
+import meals from '../seedData/meals';
+import orders from '../seedData/orders';
 import testMeals from '../seedData/testMeals';
 
 describe('POST /', () => {

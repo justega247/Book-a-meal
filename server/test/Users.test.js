@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import request from 'supertest';
 
-import users from '../seedData/Users';
+import users from '../seedData/users';
 import app from '../../server/app';
 
 describe('POST /signup', () => {
@@ -53,7 +53,7 @@ describe('POST /signup', () => {
     request(app)
       .post('/api/v1/users/signup')
       .send(newUser)
-      .expect(400)
+      .expect(409)
       .end(done);
   });
 
@@ -83,7 +83,7 @@ describe('POST /signup', () => {
     request(app)
       .post('/api/v1/users/signup')
       .send(newUser)
-      .expect(400)
+      .expect(422)
       .end(done);
   });
 });

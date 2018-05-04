@@ -1,5 +1,5 @@
 import bcrypt from 'bcrypt';
-import users from '../seedData/Users';
+import users from '../seedData/users';
 
 const saltRounds = 10;
 
@@ -18,7 +18,7 @@ class Users {
         return res.status(400)
           .send('Your username has been taken');
       } else if (req.body.email.trim() === users[i].email) {
-        return res.status(400)
+        return res.status(409)
           .send('Your email is already in use');
       }
     }

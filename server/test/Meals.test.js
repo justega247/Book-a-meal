@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import request from 'supertest';
 
-import meals from '../seedData/Meal';
+import meals from '../seedData/meals';
 import testMeals from '../seedData/testMeals';
 import app from '../../server/app';
 
@@ -73,7 +73,7 @@ describe('POST /meals', () => {
       .send(newMeal)
       .expect(400)
       .expect((res) => {
-        expect(res.body.message).to.equal('Sorry,that meal name is invalid');
+        expect(res.body.message).to.equal('Sorry,that meal name is in use');
       })
       .end(done);
   });
@@ -91,7 +91,7 @@ describe('POST /meals', () => {
       .send(newMeal)
       .expect(400)
       .expect((res) => {
-        expect(res.body.message).to.equal('Meal name,should not be empty');
+        expect(res.body.message).to.equal('Sorry,it seems your meal name is empty');
       })
       .end(done);
   });
@@ -110,7 +110,7 @@ describe('POST /meals', () => {
       .expect(400)
       .expect((res) => {
         expect(res.body.message).to
-          .equal('Sorry,meal category cannot be empty');
+          .equal('Sorry, meal category cannot be empty');
       })
       .end(done);
   });
@@ -147,7 +147,7 @@ describe('PUT /meals/:mealId', () => {
         .expect(400)
         .expect((res) => {
           expect(res.body.message).to
-            .equal('Sorry,you have to enter valid value(s).');
+            .equal('Sorry, one or more of your field has an empty value.');
         })
         .end(done);
     }
@@ -165,7 +165,7 @@ describe('PUT /meals/:mealId', () => {
       .expect(400)
       .expect((res) => {
         expect(res.body.message).to
-          .equal('Sorry,you have to enter valid value(s).');
+          .equal('Sorry, one or more of your field has an empty value.');
       })
       .end(done);
   });
@@ -188,29 +188,6 @@ describe('PUT /meals/:mealId', () => {
       })
       .end(done);
   });
-
-  it(
-    'should not update a field that is not changed when valid values are sent',
-    (done) => {
-      const updateMeal = {
-        name: 'spaghetti',
-        category: 'yummy',
-        price: 900
-      };
-
-      request(app)
-        .put('/api/v1/meals/1')
-        .send(updateMeal)
-        .expect(200)
-        .expect((res) => {
-          expect(res.body.mealUpdate.name).to.equal(updateMeal.name);
-          expect(res.body.mealUpdate.category).to.equal(updateMeal.category);
-          expect(res.body.mealUpdate.price).to.equal(updateMeal.price);
-          expect(res.body.mealUpdate.image).to.equal(meals[0].image);
-        })
-        .end(done);
-    }
-  );
 });
 
 describe('DELETE /:mealId', () => {

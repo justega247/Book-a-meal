@@ -1,5 +1,5 @@
-import orders from '../seedData/Orders';
-import meals from '../seedData/Meal';
+import orders from '../seedData/orders';
+import meals from '../seedData/meals';
 
 /**
  * @class Orders

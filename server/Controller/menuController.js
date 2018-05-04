@@ -1,7 +1,6 @@
-import menu from '../seedData/Menu';
-import meals from '../seedData/Meal';
+import menu from '../seedData/menu';
+import meals from '../seedData/meals';
 
-let mealMenu;
 /**
  * @class Menu
  */
@@ -12,34 +11,22 @@ class Menu {
  * @param {param} res
  */
   static addMenu(req, res) {
-    // A shuffle function to randomize the output on any API call
-    const shuffle = (array) => {
-      let tmp;
-      let current;
-      let top = array.length - 1;
-
-      while (top) {
-        current = Math.floor(Math.random() * (top + 1));
-        tmp = array[current];
-        array[current] = array[top];
-        array[top] = tmp;
-        top -= 1;
-      }
-      return array;
-    };
+    let dayMenu = [];
+    let mealMenu;
+    let todayMenu;
 
     mealMenu = req.body.meals;
-
-    if (mealMenu.length < 3) {
-      return res.status(400).json({
-        message: 'You need more meals to set up a menu'
-      });
+    for(let i = 0; i < mealMenu.length; i += 1) {
+      menu.push(meals.find((one) => {
+        return parseInt(mealMenu[i], 10) === one.mealId;
+      }))
     }
-    const mealshuffled = shuffle(mealMenu).slice(2);
+    dayMenu.push(...menu);
+    todayMenu = dayMenu.filter(dMenu => dMenu !== undefined);
 
     return res.status(201).json({
       message: 'Success',
-      menu: menu.concat(mealshuffled)
+      todayMenu
     });
   }
 
@@ -48,34 +35,22 @@ class Menu {
  * @param {param} req
  * @param {param} res
  */
-  static availableMenu(req, res) {
-    // A shuffle function to randomize the output on any API call
-    const shuffle = (array) => {
-      let tmp;
-      let current;
-      let top = array.length - 1;
-
-      while (top) {
-        current = Math.floor(Math.random() * (top + 1));
-        tmp = array[current];
-        array[current] = array[top];
-        array[top] = tmp;
-        top -= 1;
-      }
-      return array;
-    };
-    const mealshuffled = menu.concat(shuffle(meals));
-
-    if (mealshuffled.length > 2) {
-      return res.status(200).json({
-        message: 'Success',
-        menu: mealshuffled.slice(2)
-      });
+  static retrieveMenu(req, res) {
+    let myMenu = [];
+    let realMenu;
+    myMenu.push(...menu)
+    realMenu = myMenu.filter(aMenu => aMenu !== undefined)
+    if(realMenu.length !== 0) {
+      return res.status(200)
+        .json({
+          message: "Today's menu",
+          menuToday: realMenu
+        })
     }
-    return res.status(400).json({
-      message: 'Sorry,no menu for today',
-      menu: []
-    });
+    return res.status(404)
+      .json({
+        message: 'Sorry, no menu has been set'
+      })
   }
 }
 
