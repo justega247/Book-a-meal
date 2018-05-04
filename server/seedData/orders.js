@@ -7,7 +7,7 @@ const orders = [
       category: 'hot',
       image: 'bakedbeans.jpg',
       price: 750,
-    },{
+    }, {
       mealId: 3,
       name: 'Fried Beans',
       category: 'spicy',
@@ -23,7 +23,7 @@ const orders = [
       category: 'hot',
       image: 'cakedbeans.jpg',
       price: 750,
-    },{
+    }, {
       mealId: 4,
       name: 'Boiled Beans',
       category: 'hot',
@@ -39,7 +39,7 @@ const orders = [
       category: 'hot',
       image: 'jollofrice.jpg',
       price: 750,
-    },{
+    }, {
       mealId: 7,
       name: 'Cooked Beans',
       category: 'yummy',

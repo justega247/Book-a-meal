@@ -1,4 +1,4 @@
-import meals from '../seedData/dummyMeal';
+import meals from '../seedData/meals';
 
 /**
  * @class Meals
@@ -9,7 +9,7 @@ class Meals {
  * @param {param} req
  * @param {param} res
  */
-  static mealsAvailable(req, res) {
+  static retrieveMeals(req, res) {
     if (meals.length === 0) {
       return res.status(200).json({
         message: 'Sorry no available meal',
@@ -31,22 +31,18 @@ class Meals {
  * @param {param} res
  */
   static addMeal(req, res) {
+    // Validate meal creation data
     for (let i = 0; i < meals.length; i += 1) {
-      if (req.body.name.trim() === '' ||
-       req.body.name.trim() === meals[i].name) {
+      if (req.body.name.trim() === meals[i].name) {
         return res.status(400)
           .json({
-            message: 'Sorry,that meal name is invalid'
-          });
-      } else if (req.body.category.trim() === '') {
-        return res.status(400)
-          .json({
-            message: 'Sorry,meal category cannot be empty'
+            message: 'Sorry,that meal name is in use'
           });
       }
     }
+    // Create the meal and push into the meals array
     meals.push({
-      mealId: meals.length + 1,
+      mealId: meals[meals.length - 1].mealId + 1,
       name: req.body.name,
       category: req.body.category,
       image: req.body.image,
@@ -65,28 +61,45 @@ class Meals {
  * @param {param} res
  */
   static updateMeal(req, res) {
+    for (let i = 0; i < meals.length; i += 1) {
+      if (req.body.name.trim() === meals[i].name) {
+        return res.status(400)
+          .json({
+            message: 'Sorry,that meal name is already in use'
+          });
+      }
+    }
+
     const mealId = parseInt(req.params.mealId, 10);
 
-    let meal = meals.find((one) => {
-      return one.mealId === mealId;
-    })
+    let meal = meals.find(one => one.mealId === mealId);
 
     if (meal) {
       const updateValueArray = Object.keys(req.body);
 
+      // A check to make sure none of the input data is an empty string
       for (let j = 0; j < updateValueArray.length; j += 1) {
         if (req.body[updateValueArray[j]] === '') {
           return res.status(400).json({
-            message: 'Sorry,you have to enter valid value(s).'
+            message: 'Sorry, one or more of your field has an empty value.'
           });
         }
       }
+
+      const findMealWithId = meal1 => meal1.mealId === mealId;
+      const index = meals.findIndex(findMealWithId);
+
+      // Update the valid specified fields of the meal
       meal = {
+        mealId: index + 1,
         name: req.body.name || meal.name,
         category: req.body.category || meal.category,
         price: req.body.price || meal.price,
         image: req.body.image || meal.image
       };
+
+      meals.splice(index, 1, meal);
+
       return res.status(200).json({
         message: 'Success',
         mealUpdate: meal
@@ -103,8 +116,7 @@ class Meals {
  * @param {param} res
  */
   static removeMeal(req, res) {
-
-    const mealId = parseInt(req.params.mealId);
+    const mealId = parseInt(req.params.mealId, 10);
     const findMealWithId = meal => meal.mealId === mealId;
     const index = meals.findIndex(findMealWithId);
 

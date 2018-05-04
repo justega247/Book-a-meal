@@ -1,7 +1,8 @@
 import { expect } from 'chai';
 import request from 'supertest';
 
-import meals from '../seedData/dummyMeal';
+import meals from '../seedData/meals';
+import testMeals from '../seedData/testMeals';
 import app from '../../server/app';
 
 describe('GET /meals', () => {
@@ -36,7 +37,9 @@ describe('GET /meals', () => {
 });
 
 describe('POST /meals', () => {
-
+  before(() => {
+    meals.push(...testMeals);
+  });
   it('should add a new meal when valid data is sent', (done) => {
     const newMeal = {
       name: 'Egusi and Pounded yam',
@@ -53,7 +56,6 @@ describe('POST /meals', () => {
         expect(res.body.details.name).to.equal(newMeal.name);
         expect(res.body.details.category).to.equal(newMeal.category);
         expect(res.body).to.be.an('object');
-        expect(meals.length).to.equal(1);
       })
       .end(done);
   });
@@ -71,7 +73,7 @@ describe('POST /meals', () => {
       .send(newMeal)
       .expect(400)
       .expect((res) => {
-        expect(res.body.message).to.equal('Sorry,that meal name is invalid');
+        expect(res.body.message).to.equal('Sorry,that meal name is in use');
       })
       .end(done);
   });
@@ -89,7 +91,8 @@ describe('POST /meals', () => {
       .send(newMeal)
       .expect(400)
       .expect((res) => {
-        expect(res.body.message).to.equal('Sorry,that meal name is invalid');
+        expect(res.body.message).to
+          .equal('Sorry,it seems your meal name is empty');
       })
       .end(done);
   });
@@ -107,7 +110,8 @@ describe('POST /meals', () => {
       .send(newMeal)
       .expect(400)
       .expect((res) => {
-        expect(res.body.message).to.equal('Sorry,meal category cannot be empty');
+        expect(res.body.message).to
+          .equal('Sorry, meal category cannot be empty');
       })
       .end(done);
   });
@@ -144,7 +148,7 @@ describe('PUT /meals/:mealId', () => {
         .expect(400)
         .expect((res) => {
           expect(res.body.message).to
-            .equal('Sorry,you have to enter valid value(s).');
+            .equal('Sorry, one or more of your field has an empty value.');
         })
         .end(done);
     }
@@ -162,7 +166,7 @@ describe('PUT /meals/:mealId', () => {
       .expect(400)
       .expect((res) => {
         expect(res.body.message).to
-          .equal('Sorry,you have to enter valid value(s).');
+          .equal('Sorry, one or more of your field has an empty value.');
       })
       .end(done);
   });
@@ -185,34 +189,10 @@ describe('PUT /meals/:mealId', () => {
       })
       .end(done);
   });
-
-  it(
-    'should not update a field that is not changed when valid values are sent',
-    (done) => {
-      const updateMeal = {
-        name: 'spaghetti',
-        category: 'yummy',
-        price: 900
-      };
-
-      request(app)
-        .put('/api/v1/meals/1')
-        .send(updateMeal)
-        .expect(200)
-        .expect((res) => {
-          expect(res.body.mealUpdate.name).to.equal(updateMeal.name);
-          expect(res.body.mealUpdate.category).to.equal(updateMeal.category);
-          expect(res.body.mealUpdate.price).to.equal(updateMeal.price);
-          expect(res.body.mealUpdate.image).to.equal(meals[0].image);
-        })
-        .end(done);
-    }
-  );
 });
 
 describe('DELETE /:mealId', () => {
   it('should delete a meal if a valid mealId is sent', (done) => {
-
     request(app)
       .delete('/api/v1/meals/1')
       .expect(200)
@@ -224,12 +204,12 @@ describe('DELETE /:mealId', () => {
   });
 
   it('should return an error message if an invalid mealId is sent', (done) => {
-
     request(app)
       .delete('/api/v1/meals/44')
       .expect(404)
       .expect((res) => {
-        expect(res.body.message).to.equal('Sorry,there is no meal with that mealId');
+        expect(res.body.message).to
+          .equal('Sorry,there is no meal with that mealId');
       })
       .end(done);
   });

@@ -1,5 +1,5 @@
-import orders from '../seedData/dummyOrders';
-import meals from '../seedData/dummyMeal';
+import orders from '../seedData/orders';
+import meals from '../seedData/meals';
 
 /**
  * @class Orders
@@ -48,6 +48,7 @@ class Orders {
       if (orders[i].orderId === Id) {
         order = orders[i];
 
+        // Delete meals that have matching Id's from the orders
         for (let j = 0; j < deleteOrder.length; j += 1) {
           for (let k = 0; k < order.meals.length; k += 1) {
             if (deleteOrder[j] === order.meals[k].mealId) {
@@ -55,7 +56,7 @@ class Orders {
             }
           }
         }
-
+        // Add meals that have matching Id's to the orders
         for (let x = 0; x < addOrder.length; x += 1) {
           for (let y = 0; y < meals.length; y += 1) {
             if (addOrder[x] === meals[y].mealId) {
@@ -81,6 +82,7 @@ class Orders {
  * @param {param} res
  */
   static allOrders(req, res) {
+    // Check that orders have been made
     if (orders.length === 0) {
       return res.status(200).json({
         message: 'Oh! no orders made yet',
@@ -89,12 +91,12 @@ class Orders {
     } else if (orders.length > 0) {
       const cost = [];
 
+      // Check for the total price of the orders made if any.
       for (let i = 0; i < orders.length; i += 1) {
         for (let j = 0; j < orders[i].meals.length; j += 1) {
           cost.push(orders[i].meals[j].price);
         }
       }
-
       const reducer = (acc, currentValue) => acc + currentValue;
       const total = cost.reduce(reducer);
 
