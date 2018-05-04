@@ -91,7 +91,8 @@ describe('POST /meals', () => {
       .send(newMeal)
       .expect(400)
       .expect((res) => {
-        expect(res.body.message).to.equal('Sorry,it seems your meal name is empty');
+        expect(res.body.message).to
+          .equal('Sorry,it seems your meal name is empty');
       })
       .end(done);
   });

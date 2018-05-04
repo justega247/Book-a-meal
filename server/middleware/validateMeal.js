@@ -1,5 +1,4 @@
 import validator from 'validator';
-import meals from '../seedData/meals'
 
 /**
  * @class Validate Meal
@@ -69,23 +68,23 @@ class ValidateMeal {
    * @return {void}
    */
   static mealUpdateData(req, res, next) {
-    if(req.body.category && req.body.category.trim() === '') {
+    if (req.body.category && req.body.category.trim() === '') {
       return res.status(400)
         .json({
           message: 'Sorry, you have to specify a proper category'
         });
     }
 
-    if(req.body.price) {
-      if(!Number.isInteger(req.body.price)) {
+    if (req.body.price) {
+      if (!Number.isInteger(req.body.price)) {
         return res.status(400)
           .json({
             message: 'Sorry, you cannot update the price field with that value'
-          })
+          });
       }
     }
 
-    if(req.body.name && (req.body.name.trim() === '')) {
+    if (req.body.name && (req.body.name.trim() === '')) {
       return res.status(400)
         .json({
           message: 'Sorry, you have not specified any meal name'
