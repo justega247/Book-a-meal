@@ -33,7 +33,7 @@ img {
 }
 
 .main-a {
-   grid-area: main-a;
+  grid-area: main-a;
 }
 
 .main-b {
@@ -181,7 +181,7 @@ h1 {
 #orderbtn {
   margin-bottom: 1em;
   background-color: rgba(184, 135, 11, 0.479);
-  color: #746303;
+  color: black;
   padding: 2px 15px;
   border-radius: 0px 5px 5px 0px;
   cursor: pointer;

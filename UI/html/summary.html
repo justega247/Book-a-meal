@@ -27,6 +27,7 @@
   </div>
   <div class="grid-container">
     <div class="item1">
+      <button disabled="disabled" id="time"></button>
       <p>Earnings: <button disabled="disabled">&#8358; 45750</button></p>
       <hr>
       <p><b>Order Summary</b></p>
@@ -60,6 +61,7 @@
           <div id=act>
             <h6>Delicious</h6>
             <h6>Quantity sold: <button disabled="disabled" id="sumbtn">3</button></h6>
+            <h6>Sale value: <button disabled="disabled" id="sumbtn">&#8358; 1500</button></h6>
           </div>
         </div>
         <div id="menuitem">
@@ -67,6 +69,7 @@
           <div id=act>
             <h6>Delicious</h6>
             <h6>Quantity sold: <button disabled="disabled" id="sumbtn">3</button></h6>
+            <h6>Sale value: <button disabled="disabled" id="sumbtn">&#8358; 1500</button></h6>
           </div>
         </div>
         <div id="menuitem">
@@ -74,6 +77,7 @@
           <div id=act>
             <h6>Delicious</h6>
             <h6>Quantity sold: <button disabled="disabled" id="sumbtn">3</button></h6>
+            <h6>Sale value: <button disabled="disabled" id="sumbtn">&#8358; 1500</button></h6>
           </div>
         </div>
       </div>
@@ -83,6 +87,7 @@
           <div id=act>
             <h6>Delicious</h6>
             <h6>Quantity sold: <button disabled="disabled" id="sumbtn">3</button></h6>
+            <h6>Sale value: <button disabled="disabled" id="sumbtn">&#8358; 1500</button></h6>
           </div>
         </div>
         <div id="menuitem">
@@ -90,6 +95,7 @@
           <div id=act>
             <h6>Delicious</h6>
             <h6>Quantity sold: <button disabled="disabled" id="sumbtn">3</button></h6>
+            <h6>Sale value: <button disabled="disabled" id="sumbtn">&#8358; 1500</button></h6>
           </div>
         </div>
         <div id="menuitem">
@@ -97,6 +103,7 @@
           <div id=act>
             <h6>Delicious</h6>
             <h6>Quantity sold: <button disabled="disabled" id="sumbtn">3</button></h6>
+            <h6>Sale value: <button disabled="disabled" id="sumbtn">&#8358; 1500</button></h6>
           </div>
         </div>
       </div>
@@ -113,6 +120,8 @@
         x.className = "topnav";
       }
     }
+
+    document.getElementById("time").innerHTML = new Date().toDateString();
   </script>
 </body>
 </html>

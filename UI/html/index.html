@@ -12,18 +12,23 @@
 <body>
   <header>
   <span>Book-A-Meal</span>
-    <form id="hdrform">
+    <form id="hdrform" class="hdrform">
       <table>
-        <tr>
-          <td>Username: <input id="lginp" type="text" placeholder="username"></td>
-          <td>Password: <input id="lginp" type="password" placeholder="password"></td>
-          <td><button class="lgsubmit" type="submit"><a href="order.html">Login</a></button></td>
-        </tr>
-        <tr>
-          <td><a id="lgforgot"href="#">forgot password?</a></td>
-        </tr>
+        <div>
+          <tr>
+            <td>Username: <input id="lginp" type="text" placeholder="username"></td>
+            <td>Password: <input id="lginp" type="password" placeholder="password"></td>
+            <td><button class="lgsubmit" type="submit"><a href="order.html">Login</a></button></td>
+          </tr>
+        </div>
+        <div id="fgpwd">
+          <tr>
+            <td><a id="lgforgot"href="#">forgot password?</a></td>
+          </tr>
+        </div>
       </table>
     </form>
+    <a href="javascript:void(0);" style="font-size:15px;" class="icon" onclick="myFunction()">&#9776;</a>
   </header>
 
   <div id="container">
@@ -42,6 +47,17 @@
         </div>
     </form>
   </div>
+
+  <script>
+    function myFunction() {
+      var x = document.getElementById("hdrform");
+      if (x.className === "hdrform") {
+        x.className += " responsive";
+      } else {
+        x.className = "hdrform";
+      }
+    }
+  </script>
 
 </body>
 </html>
