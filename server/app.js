@@ -2,10 +2,10 @@ import express from 'express';
 import logger from 'morgan';
 import bodyParser from 'body-parser';
 
-import mealRoutes from './Routes/mealRoutes';
-import menuRoutes from './Routes/menuRoutes';
-import userRoutes from './Routes/userRoutes';
-import orderRoutes from './Routes/orderRoutes';
+import mealRoutes from './routes/mealRoutes';
+import menuRoutes from './routes/menuRoutes';
+import userRoutes from './routes/userRoutes';
+import orderRoutes from './routes/orderRoutes';
 
 // Set up the express app
 const app = express();
