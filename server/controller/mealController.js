@@ -125,7 +125,6 @@ class Meals {
         message: 'Sorry,there is no meal with that mealId'
       });
     }
-    console.log(index);
     meals.splice(index, 1);
 
     return res.status(204).json({
