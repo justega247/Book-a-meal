@@ -1,5 +1,5 @@
 import orders from '../seedData/orders';
-import meals from '../seedData/meals';
+import menu from '../seedData/menu';
 
 /**
  * @class Orders
@@ -11,8 +11,16 @@ class Orders {
  * @param {param} res
  */
   static addOrders(req, res) {
-    // req.body.meals is an array containing the meals you want to add.
+    // req.body.meals is an array containing the mealIds you want to add.
     const mealOrder = req.body.meals;
+    const menuArray = [];
+
+    if(menu.length === 0) {
+      return res.status(400)
+        .json({
+          message: 'Sorry, no menu has been set'
+        })
+    }
 
     // check to make sure at least one meal has been ordered.
     if (mealOrder.length === 0) {
@@ -20,10 +28,23 @@ class Orders {
         message: 'You have not specified any meal to order'
       });
     }
-    orders.push({
-      orderId: orders.length + 1,
-      meals: mealOrder
-    });
+
+    mealOrder.forEach((one) => {
+      menuArray.push(menu.find(meal => parseInt(one, 10) === meal.mealId));
+    })
+
+    if(orders.length === 0) {
+      orders.push({
+        orderId: 1,
+        meals: menuArray
+      });
+    } else {
+      orders.push({
+        orderId: orders[orders.length - 1].orderId + 1,
+        meals: menuArray
+      });
+    }
+
     return res.status(201).json({
       message: 'Success',
       yourOrder: orders[orders.length - 1]
@@ -56,11 +77,12 @@ class Orders {
             }
           }
         }
+
         // Add meals that have matching Id's to the orders
         for (let x = 0; x < addOrder.length; x += 1) {
-          for (let y = 0; y < meals.length; y += 1) {
-            if (addOrder[x] === meals[y].mealId) {
-              order.meals.push(meals[y]);
+          for (let y = 0; y < menu.length; y += 1) {
+            if (addOrder[x] === menu[y].mealId) {
+              order.meals.push(menu[y]);
             }
           }
         }
@@ -85,7 +107,7 @@ class Orders {
     // Check that orders have been made
     if (orders.length === 0) {
       return res.status(200).json({
-        message: 'Oh! no orders made yet',
+        message: 'Sorry, no orders made yet',
         orders: []
       });
     } else if (orders.length > 0) {
@@ -108,7 +130,6 @@ class Orders {
         orders: ordersAvailable
       });
     }
-    return res.status(500);
   }
 }
 

@@ -6,3 +6,5 @@ node_modules/
 npm-debug.log
 npm-debug.log.*
 PullRequestTemplate.md
+coverage
+.nyc_output

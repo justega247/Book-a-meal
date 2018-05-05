@@ -26,9 +26,9 @@ describe('GET /meals', () => {
     it('should return an empty array when there is no meal', (done) => {
       request(app)
         .get('/api/v1/meals')
-        .expect(200)
+        .expect(404)
         .expect((res) => {
-          expect(res.body.message).to.equal('Sorry no available meal');
+          expect(res.body.message).to.equal('Sorry, no available meal');
           expect(res.body.meals).to.have.lengthOf(0);
         })
         .end(done);
@@ -71,9 +71,9 @@ describe('POST /meals', () => {
     request(app)
       .post('/api/v1/meals/')
       .send(newMeal)
-      .expect(400)
+      .expect(409)
       .expect((res) => {
-        expect(res.body.message).to.equal('Sorry,that meal name is in use');
+        expect(res.body.message).to.equal('Sorry, that meal name already exists');
       })
       .end(done);
   });
@@ -92,7 +92,7 @@ describe('POST /meals', () => {
       .expect(400)
       .expect((res) => {
         expect(res.body.message).to
-          .equal('Sorry,it seems your meal name is empty');
+          .equal('Sorry, it seems your meal name is empty');
       })
       .end(done);
   });
@@ -111,7 +111,7 @@ describe('POST /meals', () => {
       .expect(400)
       .expect((res) => {
         expect(res.body.message).to
-          .equal('Sorry, meal category cannot be empty');
+          .equal('Sorry, your category name has to be longer');
       })
       .end(done);
   });
@@ -129,7 +129,7 @@ describe('PUT /meals/:mealId', () => {
       .send(updateMeal)
       .expect(404)
       .expect((res) => {
-        expect(res.body.message).to.equal('Sorry,no meal with that id exists');
+        expect(res.body.message).to.equal('Sorry, no meal with that id exists');
       })
       .end(done);
   });
@@ -171,6 +171,54 @@ describe('PUT /meals/:mealId', () => {
       .end(done);
   });
 
+  it('should return an error if the category name is < 2', (done) => {
+    const updateMeal = {
+      category: 'h'
+    };
+
+    request(app)
+      .put('/api/v1/meals/1')
+      .send(updateMeal)
+      .expect(400)
+      .expect((res) => {
+        expect(res.body.message).to
+          .equal('Sorry, your category name has to be longer');
+      })
+      .end(done);
+  });
+
+  it('should return an error if the meal name is < 2', (done) => {
+    const updateMeal = {
+      name: 'h'
+    };
+
+    request(app)
+      .put('/api/v1/meals/1')
+      .send(updateMeal)
+      .expect(400)
+      .expect((res) => {
+        expect(res.body.message).to
+          .equal('Sorry, your meal name has to be longer');
+      })
+      .end(done);
+  });
+
+  it('should return an error if the update has an invalid price field', (done) => {
+    const updateMeal = {
+      price: 's56'
+    };
+
+    request(app)
+      .put('/api/v1/meals/1')
+      .send(updateMeal)
+      .expect(400)
+      .expect((res) => {
+        expect(res.body.message).to
+          .equal('Sorry, you cannot update the price field with that value');
+      })
+      .end(done);
+  });
+
   it('should update the meal when valid values are sent', (done) => {
     const updateMeal = {
       name: 'spaghetti',
@@ -189,17 +237,31 @@ describe('PUT /meals/:mealId', () => {
       })
       .end(done);
   });
+
+  it('should not update a meal where an existing meal has the same name',
+  (done) => {
+    const updateMeal = {
+      name: 'spaghetti',
+      category: 'yummy',
+      price: 900
+    };
+
+    request(app)
+      .put('/api/v1/meals/1')
+      .send(updateMeal)
+      .expect(409)
+      .expect((res) => {
+        expect(res.body.message).to.equal('Sorry, that meal name already exists');
+      })
+      .end(done);
+  })
 });
 
 describe('DELETE /:mealId', () => {
   it('should delete a meal if a valid mealId is sent', (done) => {
     request(app)
       .delete('/api/v1/meals/1')
-      .expect(200)
-      .expect((res) => {
-        expect(res.body.message).to.equal('A meal was just deleted');
-        expect(res.body.leftoverMeals).to.be.an('array');
-      })
+      .expect(204)
       .end(done);
   });
 
