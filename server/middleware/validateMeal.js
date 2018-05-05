@@ -14,7 +14,7 @@ class ValidateMeal {
    * @return {void}
    */
   static mealDataValidation(req, res, next) {
-    const { name,category,price,} = req.body;
+    const { name, category, price, } = req.body;
     if (!name || name.trim() === '') {
       return res.status(400)
         .json({
@@ -22,14 +22,14 @@ class ValidateMeal {
         });
     }
 
-    if(name.trim().length < 2) {
+    if (name.trim().length < 2) {
       return res.status(400)
         .json({
           message: 'Sorry, your meal name has to be longer'
         });
     }
 
-    if(category.trim().length < 2) {
+    if (category.trim().length < 2) {
       return res.status(400)
         .json({
           message: 'Sorry, your category name has to be longer'
@@ -83,16 +83,16 @@ class ValidateMeal {
    * @return {void}
    */
   static mealUpdateValidation(req, res, next) {
-    const { price,name,category } = req.body;
+    const { price, name, category } = req.body;
 
-    if(name && name.trim().length < 2) {
+    if (name && name.trim().length < 2) {
       return res.status(400)
         .json({
           message: 'Sorry, your meal name has to be longer'
         });
     }
 
-    if(category && category.trim().length < 2) {
+    if (category && category.trim().length < 2) {
       return res.status(400)
         .json({
           message: 'Sorry, your category name has to be longer'

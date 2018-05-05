@@ -4,16 +4,16 @@ import request from 'supertest';
 import app from '../../server/app';
 import menu from '../seedData/menu';
 import orders from '../seedData/orders';
-import testMeals from '../seedData/testMeals'
+import testMeals from '../seedData/testMeals';
 
 describe('POST /', () => {
   before(() => {
     menu.splice(0);
-    menu.push(...testMeals)
+    menu.push(...testMeals);
   });
   it('should add a new order to the orders list', (done) => {
     const newOrder = {
-      meals: [1,5,9,6,4,3]
+      meals: [1, 5, 9, 6, 4, 3]
     };
 
     request(app)
@@ -33,7 +33,7 @@ describe('POST /', () => {
     });
     it('should throw an error when no menu has been set', (done) => {
       const newOrder = {
-        meals: [1,5,9,6,4,3]
+        meals: [1, 5, 9, 6, 4, 3]
       };
 
       request(app)
@@ -44,7 +44,7 @@ describe('POST /', () => {
           expect(res.body.message).to.equal('Sorry, no menu has been set');
         })
         .end(done);
-    })
+    });
   });
 
   it('should return an error if no meal has been specified', (done) => {
@@ -57,19 +57,18 @@ describe('POST /', () => {
       .send(newOrder)
       .expect(400)
       .expect((res) => {
-        expect(res.body.message).to.equal('You have not specified any meal to order');
+        expect(res.body.message).to
+          .equal('You have not specified any meal to order');
       })
       .end(done);
   });
-
 });
 
 describe('PUT /', () => {
-
   it('should return a modified order if valid data is sent', (done) => {
     const changeOrder = {
-      addOrder: [2,8],
-      deleteOrder: [1,5]
+      addOrder: [2, 8],
+      deleteOrder: [1, 5]
     };
 
     request(app)

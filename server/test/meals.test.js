@@ -73,7 +73,8 @@ describe('POST /meals', () => {
       .send(newMeal)
       .expect(409)
       .expect((res) => {
-        expect(res.body.message).to.equal('Sorry, that meal name already exists');
+        expect(res.body.message).to
+          .equal('Sorry, that meal name already exists');
       })
       .end(done);
   });
@@ -203,21 +204,24 @@ describe('PUT /meals/:mealId', () => {
       .end(done);
   });
 
-  it('should return an error if the update has an invalid price field', (done) => {
-    const updateMeal = {
-      price: 's56'
-    };
+  it(
+    'should return an error if the update has an invalid price field',
+    (done) => {
+      const updateMeal = {
+        price: 's56'
+      };
 
-    request(app)
-      .put('/api/v1/meals/1')
-      .send(updateMeal)
-      .expect(400)
-      .expect((res) => {
-        expect(res.body.message).to
-          .equal('Sorry, you cannot update the price field with that value');
-      })
-      .end(done);
-  });
+      request(app)
+        .put('/api/v1/meals/1')
+        .send(updateMeal)
+        .expect(400)
+        .expect((res) => {
+          expect(res.body.message).to
+            .equal('Sorry, you cannot update the price field with that value');
+        })
+        .end(done);
+    }
+  );
 
   it('should update the meal when valid values are sent', (done) => {
     const updateMeal = {
@@ -238,23 +242,26 @@ describe('PUT /meals/:mealId', () => {
       .end(done);
   });
 
-  it('should not update a meal where an existing meal has the same name',
-  (done) => {
-    const updateMeal = {
-      name: 'spaghetti',
-      category: 'yummy',
-      price: 900
-    };
+  it(
+    'should not update a meal where an existing meal has the same name',
+    (done) => {
+      const updateMeal = {
+        name: 'spaghetti',
+        category: 'yummy',
+        price: 900
+      };
 
-    request(app)
-      .put('/api/v1/meals/1')
-      .send(updateMeal)
-      .expect(409)
-      .expect((res) => {
-        expect(res.body.message).to.equal('Sorry, that meal name already exists');
-      })
-      .end(done);
-  })
+      request(app)
+        .put('/api/v1/meals/1')
+        .send(updateMeal)
+        .expect(409)
+        .expect((res) => {
+          expect(res.body.message).to
+            .equal('Sorry, that meal name already exists');
+        })
+        .end(done);
+    }
+  );
 });
 
 describe('DELETE /:mealId', () => {

@@ -15,24 +15,20 @@ class Users {
   static addUser(req, res) {
     let user;
 
-    user = users.find((one) => {
-      return req.body.username.trim() === one.username;
-    });
-    if(user) {
+    user = users.find(one => req.body.username.trim() === one.username);
+    if (user) {
       return res.status(409)
         .json({
           message: 'Sorry, that username already exists'
-        })
+        });
     }
 
-    user = users.find((one) => {
-      return req.body.email.trim() === one.email;
-    });
-    if(user) {
+    user = users.find(one => req.body.email.trim() === one.email);
+    if (user) {
       return res.status(409)
         .json({
           message: 'Sorry, that email already exists'
-        })
+        });
     }
 
     users.push({

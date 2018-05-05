@@ -31,11 +31,9 @@ class Meals {
  */
   static addMeal(req, res) {
     // Validate that meal name data is unique.
-    const meal = meals.find((one) => {
-      return req.body.name.trim() === one.name;
-    });
+    const meal = meals.find(one => req.body.name.trim() === one.name);
 
-    if(meal) {
+    if (meal) {
       return res.status(409)
         .json({
           message: 'Sorry, that meal name already exists'
@@ -64,11 +62,9 @@ class Meals {
  */
   static updateMeal(req, res) {
     // Validate that meal name data is unique
-    const meall = meals.find((one) => {
-      return req.body.name.trim() === one.name;
-    });
+    const meall = meals.find(one => req.body.name.trim() === one.name);
 
-    if(meall) {
+    if (meall) {
       return res.status(409)
         .json({
           message: 'Sorry, that meal name already exists'

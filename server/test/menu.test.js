@@ -42,7 +42,7 @@ describe('GET /', () => {
       menu.splice(0);
     });
 
-    it('should return an empty array when the menu has not been set', (done) => {
+    it('should return an empty array when menu has not been set', (done) => {
       request(app)
         .get('/api/v1/menu/')
         .expect(404)
@@ -51,6 +51,5 @@ describe('GET /', () => {
         })
         .end(done);
     });
-  })
-
+  });
 });

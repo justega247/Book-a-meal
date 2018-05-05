@@ -18,7 +18,7 @@ class Menu {
 
     mealMenu.forEach((one) => {
       menu.push(meals.find(meal => parseInt(one, 10) === meal.mealId));
-    })
+    });
     dayMenu.push(...menu);
     const todayMenu = dayMenu.filter(dMenu => dMenu !== undefined);
 

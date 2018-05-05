@@ -25,7 +25,7 @@ class ValidateUser {
       || req.body.username.trim() === '') {
       return res.status(400)
         .json({
-          message: 'Sorry, your username can only contain alphanumeric characters'
+          message: 'Sorry,username can only contain alphanumeric characters'
         });
     }
 
@@ -60,7 +60,7 @@ class ValidateUser {
     if (req.body.fullname.trim().match(/[\w\s]+/) === false) {
       return res.status(400)
         .json({
-          message: 'Please,check the spelling of your name for invalid characters'
+          message: 'Please,check your name for invalid characters'
         });
     }
     next();

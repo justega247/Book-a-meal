@@ -15,11 +15,11 @@ class Orders {
     const mealOrder = req.body.meals;
     const menuArray = [];
 
-    if(menu.length === 0) {
+    if (menu.length === 0) {
       return res.status(400)
         .json({
           message: 'Sorry, no menu has been set'
-        })
+        });
     }
 
     // check to make sure at least one meal has been ordered.
@@ -31,9 +31,9 @@ class Orders {
 
     mealOrder.forEach((one) => {
       menuArray.push(menu.find(meal => parseInt(one, 10) === meal.mealId));
-    })
+    });
 
-    if(orders.length === 0) {
+    if (orders.length === 0) {
       orders.push({
         orderId: 1,
         meals: menuArray
