@@ -13,10 +13,12 @@ class Menu {
   static addMenu(req, res) {
     const dayMenu = [];
 
+    // mealMenu is an array containing the mealid's of meals to add to the menu
     const mealMenu = req.body.meals;
-    for (let i = 0; i < mealMenu.length; i += 1) {
-      menu.push(meals.find(one => parseInt(mealMenu[i], 10) === one.mealId));
-    }
+
+    mealMenu.forEach((one) => {
+      menu.push(meals.find(meal => parseInt(one, 10) === meal.mealId));
+    });
     dayMenu.push(...menu);
     const todayMenu = dayMenu.filter(dMenu => dMenu !== undefined);
 

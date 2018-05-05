@@ -13,15 +13,24 @@ class Users {
  * @param {param} res
  */
   static addUser(req, res) {
-    for (let i = 0; i < users.length; i += 1) {
-      if (req.body.username.trim() === users[i].username) {
-        return res.status(400)
-          .send('Your username has been taken');
-      } else if (req.body.email.trim() === users[i].email) {
-        return res.status(409)
-          .send('Your email is already in use');
-      }
+    let user;
+
+    user = users.find(one => req.body.username.trim() === one.username);
+    if (user) {
+      return res.status(409)
+        .json({
+          message: 'Sorry, that username already exists'
+        });
     }
+
+    user = users.find(one => req.body.email.trim() === one.email);
+    if (user) {
+      return res.status(409)
+        .json({
+          message: 'Sorry, that email already exists'
+        });
+    }
+
     users.push({
       fullname: req.body.fullname.trim(),
       username: req.body.username.trim(),

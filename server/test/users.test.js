@@ -37,7 +37,7 @@ describe('POST /signup', () => {
       request(app)
         .post('/api/v1/users/signup')
         .send(newUser)
-        .expect(400)
+        .expect(409)
         .end(done);
     }
   );

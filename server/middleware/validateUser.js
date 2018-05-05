@@ -13,11 +13,11 @@ class ValidateUser {
    *
    * @return {void}
    */
-  static signUp(req, res, next) {
+  static signUpDataValidation(req, res, next) {
     if (!validator.isEmail(req.body.email.trim())) {
       return res.status(422)
         .json({
-          message: 'Sorry, your email is invalid'
+          message: 'Sorry, your email does not match the email format'
         });
     }
 
@@ -25,7 +25,7 @@ class ValidateUser {
       || req.body.username.trim() === '') {
       return res.status(400)
         .json({
-          message: 'Sorry, that username is invalid'
+          message: 'Sorry,username can only contain alphanumeric characters'
         });
     }
 
@@ -60,7 +60,7 @@ class ValidateUser {
     if (req.body.fullname.trim().match(/[\w\s]+/) === false) {
       return res.status(400)
         .json({
-          message: 'Please,check the spelling of your name for invalid values'
+          message: 'Please,check your name for invalid characters'
         });
     }
     next();
@@ -75,7 +75,7 @@ class ValidateUser {
    *
    * @return {void}
    */
-  static signIn(req, res, next) {
+  static signInDataValidation(req, res, next) {
     if (!req.body.username || req.body.username.trim() === '') {
       return res.status(400)
         .json({
@@ -86,7 +86,7 @@ class ValidateUser {
     if (!req.body.password || req.body.password.trim() === '') {
       return res.status(400)
         .json({
-          message: 'Sorry, but your password is required'
+          message: 'Sorry, your password is required'
         });
     }
     next();

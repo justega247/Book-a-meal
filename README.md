@@ -5,8 +5,6 @@
 # Book-a-meal
  Book-A-Meal is an application that allows customers to make food orders and helps the food vendor know what the customers want to eat.
 
-# API Documentation
-
 # App UI Templates
  The gh-pages branch contain the UI templates, you can view them
  [ UI Templates ](https://justega247.github.io/Book-a-meal/UI/html/)
@@ -37,13 +35,8 @@ npm install
 
 ## Built With
 1. [ Nodejs 6](https://nodejs.org/en/) A JavaScript runtime built on Chrome's V8 JavaScript engine.
-2. [Express 4](https://expressjs.com/) Fast, un-opinionated, minimalist web framework for Node.js
-
-# Contributing
-
-# Versioning
+2. [Express 4](https://expressjs.com/) Fast, un-opinionated, minimalist web framework for Node.js.
 
 # Authors
-
-# License
+- Okeremeta Tega
 

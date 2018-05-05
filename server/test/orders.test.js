@@ -2,14 +2,18 @@ import { expect } from 'chai';
 import request from 'supertest';
 
 import app from '../../server/app';
-import meals from '../seedData/meals';
+import menu from '../seedData/menu';
 import orders from '../seedData/orders';
 import testMeals from '../seedData/testMeals';
 
 describe('POST /', () => {
+  before(() => {
+    menu.splice(0);
+    menu.push(...testMeals);
+  });
   it('should add a new order to the orders list', (done) => {
     const newOrder = {
-      meals: ['meal1', 'meal2']
+      meals: [1, 5, 9, 6, 4, 3]
     };
 
     request(app)
@@ -18,12 +22,32 @@ describe('POST /', () => {
       .expect(201)
       .expect((res) => {
         expect(res.body.message).to.equal('Success');
-        expect(res.body.yourOrder).to.deep.equal(orders[orders.length - 1]);
+        expect(res.body.yourOrder).to.be.an('object');
       })
       .end(done);
   });
 
-  it('should not accept an empty order', (done) => {
+  describe('# when the menu is empty', () => {
+    before(() => {
+      menu.splice(0);
+    });
+    it('should throw an error when no menu has been set', (done) => {
+      const newOrder = {
+        meals: [1, 5, 9, 6, 4, 3]
+      };
+
+      request(app)
+        .post('/api/v1/orders/')
+        .send(newOrder)
+        .expect(400)
+        .expect((res) => {
+          expect(res.body.message).to.equal('Sorry, no menu has been set');
+        })
+        .end(done);
+    });
+  });
+
+  it('should return an error if no meal has been specified', (done) => {
     const newOrder = {
       meals: []
     };
@@ -35,32 +59,24 @@ describe('POST /', () => {
       .expect((res) => {
         expect(res.body.message).to
           .equal('You have not specified any meal to order');
-        expect(res.body.yourOrder).to.deep.not.equal(orders[orders.length - 1]);
       })
       .end(done);
   });
 });
 
 describe('PUT /', () => {
-  before(() => {
-    meals.splice(0);
-    meals.push(...testMeals);
-  });
-
   it('should return a modified order if valid data is sent', (done) => {
     const changeOrder = {
-      addOrder: [1, 3, 7],
-      deleteOrder: [2, 4]
+      addOrder: [2, 8],
+      deleteOrder: [1, 5]
     };
 
     request(app)
-      .put('/api/v1/orders/2')
+      .put('/api/v1/orders/1')
       .send(changeOrder)
       .expect(200)
       .expect((res) => {
         expect(res.body.message).to.equal('Your order has been modified');
-        expect(res.body.yourNewOrder.meals).deep.to.include(meals[0]);
-        expect(res.body.yourNewOrder.meals).deep.to.not.include(meals[1]);
       })
       .end(done);
   });
@@ -105,7 +121,7 @@ describe('GET /', () => {
         .get('/api/v1/orders/')
         .expect(200)
         .expect((res) => {
-          expect(res.body.message).to.equal('Oh! no orders made yet');
+          expect(res.body.message).to.equal('Sorry, no orders made yet');
           expect(res.body.orders.length).to.equal(0);
         })
         .end(done);

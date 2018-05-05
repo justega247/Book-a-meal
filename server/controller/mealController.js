@@ -11,8 +11,8 @@ class Meals {
  */
   static retrieveMeals(req, res) {
     if (meals.length === 0) {
-      return res.status(200).json({
-        message: 'Sorry no available meal',
+      return res.status(404).json({
+        message: 'Sorry, no available meal',
         meals: []
       });
     } else if (meals.length > 0) {
@@ -22,7 +22,6 @@ class Meals {
         meals: mealsAvailable
       });
     }
-    return res.status(500);
   }
 
   /**
@@ -31,15 +30,16 @@ class Meals {
  * @param {param} res
  */
   static addMeal(req, res) {
-    // Validate meal creation data
-    for (let i = 0; i < meals.length; i += 1) {
-      if (req.body.name.trim() === meals[i].name) {
-        return res.status(400)
-          .json({
-            message: 'Sorry,that meal name is in use'
-          });
-      }
+    // Validate that meal name data is unique.
+    const meal = meals.find(one => req.body.name.trim() === one.name);
+
+    if (meal) {
+      return res.status(409)
+        .json({
+          message: 'Sorry, that meal name already exists'
+        });
     }
+
     // Create the meal and push into the meals array
     meals.push({
       mealId: meals[meals.length - 1].mealId + 1,
@@ -61,13 +61,14 @@ class Meals {
  * @param {param} res
  */
   static updateMeal(req, res) {
-    for (let i = 0; i < meals.length; i += 1) {
-      if (req.body.name.trim() === meals[i].name) {
-        return res.status(400)
-          .json({
-            message: 'Sorry,that meal name is already in use'
-          });
-      }
+    // Validate that meal name data is unique
+    const meall = meals.find(one => req.body.name.trim() === one.name);
+
+    if (meall) {
+      return res.status(409)
+        .json({
+          message: 'Sorry, that meal name already exists'
+        });
     }
 
     const mealId = parseInt(req.params.mealId, 10);
@@ -76,7 +77,6 @@ class Meals {
 
     if (meal) {
       const updateValueArray = Object.keys(req.body);
-
       // A check to make sure none of the input data is an empty string
       for (let j = 0; j < updateValueArray.length; j += 1) {
         if (req.body[updateValueArray[j]] === '') {
@@ -91,7 +91,7 @@ class Meals {
 
       // Update the valid specified fields of the meal
       meal = {
-        mealId: index + 1,
+        mealId: meal.mealId,
         name: req.body.name || meal.name,
         category: req.body.category || meal.category,
         price: req.body.price || meal.price,
@@ -106,7 +106,7 @@ class Meals {
       });
     }
     return res.status(404).json({
-      message: 'Sorry,no meal with that id exists'
+      message: 'Sorry, no meal with that id exists'
     });
   }
 
@@ -127,9 +127,8 @@ class Meals {
     }
     meals.splice(index, 1);
 
-    return res.status(200).json({
+    return res.status(204).json({
       message: 'A meal was just deleted',
-      leftoverMeals: meals
     });
   }
 }
