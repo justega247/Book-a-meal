@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
 
     Menu.hasMany(models.Meal, {
       foreignKey: 'menuId'
-    })
+    });
   };
   return Menu;
 };
