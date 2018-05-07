@@ -28,26 +28,6 @@ module.exports = {
         as: 'userId',
       }
     },
-    menuId: {
-      allowNull: false,
-      type: Sequelize.INTEGER,
-      onDelete: 'CASCADE',
-      references: {
-        model: 'Menu',
-        key: 'id',
-        as: 'menuId',
-      }
-    },
-    orderId: {
-      allowNull: false,
-      type: Sequelize.INTEGER,
-      onDelete: 'CASCADE',
-      references: {
-        model: 'Orders',
-        key: 'id',
-        as: 'orderId',
-      }
-    },
     createdAt: {
       allowNull: false,
       type: Sequelize.DATE

@@ -3,7 +3,23 @@ module.exports = (sequelize, DataTypes) => {
     name: DataTypes.STRING,
     price: DataTypes.INTEGER,
     imageUrl: DataTypes.STRING,
-    category: DataTypes.STRING
+    category: DataTypes.STRING,
+    menuId: {
+      type: Sequelize.INTEGER,
+      references: {
+        model: 'Menu',
+        key: 'id',
+        as: 'menuId',
+      }
+    },
+    orderId: {
+      type: Sequelize.INTEGER,
+      references: {
+        model: 'Orders',
+        key: 'id',
+        as: 'orderId',
+      }
+    },
   }, {});
   Meal.associate = (models) => {
     // associations can be defined here
@@ -14,7 +30,6 @@ module.exports = (sequelize, DataTypes) => {
 
     Meal.belongsTo(models.Menu, {
       foreignKey: 'menuId',
-      onDelete: 'CASCADE',
     });
 
     Meal.belongsToMany(models.Order, {

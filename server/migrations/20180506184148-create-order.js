@@ -19,7 +19,6 @@ module.exports = {
     mealId: {
       allowNull: false,
       type: Sequelize.INTEGER,
-      onDelete: 'CASCADE',
       references: {
         model: 'Meals',
         key: 'id',
