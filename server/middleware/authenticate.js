@@ -19,17 +19,16 @@ const authenticate = (req, res, next) => {
           return res
             .status(401)
             .send('jwt malformed');
-        } else {
-          return res
-            .send('Authentication failed, you need to login or register');
         }
-      } else {
-        req.decoded = decoded;
-        User.findOne({
-          where: {
-            id: decoded.id
-          }
-        })
+        return res
+          .send('Authentication failed, you need to login or register');
+      }
+      req.decoded = decoded;
+      User.findOne({
+        where: {
+          id: decoded.id
+        }
+      })
         .then((user) => {
           if (!user) {
             res.send('No user found');
@@ -39,9 +38,8 @@ const authenticate = (req, res, next) => {
           next();
         })
         .catch((e) => {
-          res.status(401).send();
+          res.status(401).send(e);
         });
-      }
     });
   } else {
     res.status(401).send();
@@ -49,26 +47,25 @@ const authenticate = (req, res, next) => {
 };
 
 const findByCredentials = (req, res, next) => {
-  let userName = req.body.userName;
-  let password = req.body.password;
+  const { userName, password } = req.body;
 
   User.findOne({
     where: {
-      userName: userName
+      userName
     }
   })
-  .then((user) => {
-    if(!user) {
-      return res.status(404)
-        .send('No user found with that username.');
-    } else if (compareSync(password, user.password)) {
-      req.user = user;
-      next();
-    } else {
-      return res.status(400).send('Invalid password');
-    }
-  })
-  .catch(e => res.status(400).send())
+    .then((user) => {
+      if (!user) {
+        return res.status(404)
+          .send('No user found with that username.');
+      } else if (compareSync(password, user.password)) {
+        req.user = user;
+        next();
+      } else {
+        return res.status(400).send('Invalid password');
+      }
+    })
+    .catch(e => res.status(400).send(e));
 };
 
 module.exports = {
