@@ -19,15 +19,15 @@ module.exports = {
       type: Sequelize.STRING
     },
     menuId: {
-      allowNull: false,
+      allowNull: true,
       type: Sequelize.INTEGER
     },
     orderId: {
-      allowNull: false,
+      allowNull: true,
       type: Sequelize.INTEGER
     },
     userId: {
-      allowNull: false,
+      allowNull: true,
       type: Sequelize.INTEGER,
       onDelete: 'CASCADE',
       references: {
