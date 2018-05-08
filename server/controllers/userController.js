@@ -5,7 +5,7 @@ import { Op } from 'sequelize';
 import { User } from '../models';
 import { TOKEN_EXPIRATION_TIME } from '../constants/index';
 
-const { SECRET } = process.env.SECRET;
+const SECRET = process.env.SECRET;
 
 /**
  * @class Users
@@ -75,8 +75,20 @@ class Users {
           ]);
           res.header('x-auth', token).status(201).send({ newUser });
         })
-        .catch(e => res.status(500).send(e));
+          .catch(e => res.status(500).send(e));
       });
+  }
+
+  /**
+ * @return {Object} registered user
+ * @param {param} req
+ * @param {param} res
+ */
+  static signinUser(req, res) {
+    const body = pick(req.user, ['userName', 'id']);
+    const token = sign({ id: body.id }, SECRET,
+      { expiresIn: TOKEN_EXPIRATION_TIME });
+    res.header('x-auth', token).status(200).send(body);
   }
 }
 
