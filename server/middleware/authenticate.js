@@ -5,7 +5,7 @@ import { User } from '../models';
 
 const SECRET = process.env.SECRET;
 
-const authenticate = (req, res, next) => {
+const authenticated = (req, res, next) => {
   const token = req.headers['x-auth'];
 
   if (token) {
@@ -19,16 +19,17 @@ const authenticate = (req, res, next) => {
           return res
             .status(401)
             .send('jwt malformed');
+        } else {
+          return res
+            .send('Authentication failed, you need to login or register');
         }
-        return res
-          .send('Authentication failed, you need to login or register');
-      }
-      req.decoded = decoded;
-      User.findOne({
-        where: {
-          id: decoded.id
-        }
-      })
+      } else {
+        req.decoded = decoded;
+        User.findOne({
+          where: {
+            id: decoded.id
+          }
+        })
         .then((user) => {
           if (!user) {
             res.send('No user found');
@@ -38,8 +39,9 @@ const authenticate = (req, res, next) => {
           next();
         })
         .catch((e) => {
-          res.status(401).send(e);
+          res.status(401).send();
         });
+      }
     });
   } else {
     res.status(401).send();
@@ -47,28 +49,29 @@ const authenticate = (req, res, next) => {
 };
 
 const findByCredentials = (req, res, next) => {
-  const { userName, password } = req.body;
+  let userName = req.body.userName;
+  let password = req.body.password;
 
   User.findOne({
     where: {
-      userName
+      userName: userName
     }
   })
-    .then((user) => {
-      if (!user) {
-        return res.status(404)
-          .send('No user found with that username.');
-      } else if (compareSync(password, user.password)) {
-        req.user = user;
-        next();
-      } else {
-        return res.status(400).send('Invalid password');
-      }
-    })
-    .catch(e => res.status(400).send(e));
+  .then((user) => {
+    if(!user) {
+      return res.status(404)
+        .send('No user found with that username.');
+    } else if (compareSync(password, user.password)) {
+      req.user = user;
+      next();
+    } else {
+      return res.status(400).send();
+    }
+  })
+  .catch(e => res.status(400).send())
 };
 
 module.exports = {
-  authenticate,
+  authenticated,
   findByCredentials,
 };
