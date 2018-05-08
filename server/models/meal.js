@@ -5,7 +5,7 @@ module.exports = (sequelize, DataTypes) => {
     imageUrl: DataTypes.STRING,
     category: DataTypes.STRING,
     menuId: {
-      type: Sequelize.INTEGER,
+      type: DataTypes.INTEGER,
       references: {
         model: 'Menu',
         key: 'id',
@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     orderId: {
-      type: Sequelize.INTEGER,
+      type: DataTypes.INTEGER,
       references: {
         model: 'Orders',
         key: 'id',
@@ -33,8 +33,8 @@ module.exports = (sequelize, DataTypes) => {
     });
 
     Meal.belongsToMany(models.Order, {
-      through: OrderMeals,
-      foreignKey: mealId
+      through: 'OrderMeals',
+      foreignKey: 'mealId'
     });
   };
   return Meal;

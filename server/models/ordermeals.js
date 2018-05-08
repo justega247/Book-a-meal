@@ -16,6 +16,13 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   OrderMeals.associate = (models) => {
     // associations can be defined here
+    OrderMeals.belongsTo(models.Meal, {
+      foreignkey: 'mealId'
+    });
+
+    OrderMeals.belongsTo(models.Order, {
+      foreignkey: 'orderId'
+    });
   };
   return OrderMeals;
 };

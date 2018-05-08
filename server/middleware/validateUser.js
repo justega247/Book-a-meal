@@ -21,8 +21,8 @@ class ValidateUser {
         });
     }
 
-    if (!validator.isAlphanumeric(req.body.username.trim())
-      || req.body.username.trim() === '') {
+    if (!validator.isAlphanumeric(req.body.userName.trim())
+      || req.body.userName.trim() === '') {
       return res.status(400)
         .json({
           message: 'Sorry,username can only contain alphanumeric characters'
@@ -36,7 +36,7 @@ class ValidateUser {
         });
     }
 
-    if (req.body.username.trim().length < 3) {
+    if (req.body.userName.trim().length < 3) {
       return res.status(400)
         .json({
           message: 'Sory, your username must be 3 characters or more'
@@ -50,20 +50,20 @@ class ValidateUser {
         });
     }
 
-    if (!req.body.fullname || req.body.fullname.trim() === '') {
+    if (!req.body.fullName || req.body.fullName.trim() === '') {
       return res.status(400)
         .json({
           message: 'Sorry, you have not provided your fullName'
         });
     }
 
-    if (req.body.fullname.trim().match(/[\w\s]+/) === false) {
+    if (req.body.fullName.trim().match(/[\w\s]+/) === false) {
       return res.status(400)
         .json({
           message: 'Please,check your name for invalid characters'
         });
     }
-    next();
+     next();
   }
 
   /**
