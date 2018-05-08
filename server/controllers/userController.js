@@ -86,8 +86,10 @@ class Users {
  */
   static signinUser(req, res) {
     const body = pick(req.user, ['userName', 'id']);
-    const token = sign({ id: body.id }, SECRET,
-      { expiresIn: TOKEN_EXPIRATION_TIME });
+    const token = sign(
+      { id: body.id }, SECRET,
+      { expiresIn: TOKEN_EXPIRATION_TIME }
+    );
     res.header('x-auth', token).status(200).send(body);
   }
 }

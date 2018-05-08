@@ -11,19 +11,19 @@ class Meals {
  * @param {param} res
  */
   static retrieveMeals(req, res) {
-    const userMe = pick(req.user,['status']);
-    if(userMe.status === 'admin') {
+    const userMe = pick(req.user, ['status']);
+    if (userMe.status === 'admin') {
       return Meal.findAll().then((meals) => {
-        if(meals.length === 0) {
+        if (meals.length === 0) {
           return res.status(400).json({
             message: 'No meals found'
-          })
+          });
         }
         res.status(200).json({
           message: 'Success',
           meals
-        })
-      })
+        });
+      });
     }
     return res.status(401).send();
   }
