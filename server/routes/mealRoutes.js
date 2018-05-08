@@ -7,7 +7,7 @@ import { authenticated } from '../middleware/authenticate';
 const router = express.Router();
 
 router.get('/', authenticated, Meals.retrieveMeals);
-// router.post('/', ValidateMeal.mealDataValidation, Meals.addMeal);
+router.post('/', authenticated, ValidateMeal.mealDataValidation, Meals.addMeal);
 // router.put('/:mealId', ValidateMeal.mealUpdateValidation, Meals.updateMeal);
 // router.delete('/:mealId', Meals.removeMeal);
 
