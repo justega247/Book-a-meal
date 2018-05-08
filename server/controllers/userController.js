@@ -5,7 +5,7 @@ import { Op } from 'sequelize';
 import { User } from '../models';
 import { TOKEN_EXPIRATION_TIME } from '../constants/index';
 
-const SECRET = process.env.SECRET;
+const { SECRET } = process.env.SECRET;
 
 /**
  * @class Users
@@ -31,7 +31,8 @@ class Users {
           if (user.userName === req.body.userName
           && user.email === req.body.email) {
             return res.status(409).json({
-              message: 'Sorry, the username and email you have set, already exists'
+              message:
+                'Sorry, the username and email you have set, already exists'
             });
           }
           if (user.userName === req.body.userName) {
@@ -56,26 +57,25 @@ class Users {
           password: req.body.password,
           email: req.body.email.trim(),
           status: req.body.status.trim() || 'customer'
+        }).then((duser) => {
+          const token = sign(
+            {
+              id: duser.id
+            },
+            SECRET,
+            {
+              expiresIn: TOKEN_EXPIRATION_TIME
+            }
+          );
+          const newUser = pick(duser, [
+            'id',
+            'userName',
+            'fullName',
+            'email'
+          ]);
+          res.header('x-auth', token).status(201).send({ newUser });
         })
-          .then((user) => {
-            const token = sign(
-              {
-                id: user.id
-              },
-              SECRET,
-              {
-                expiresIn: TOKEN_EXPIRATION_TIME
-              }
-            );
-            const newUser = pick(user, [
-              'id',
-              'userName',
-              'fullName',
-              'email'
-            ]);
-            res.header('x-auth', token).status(201).send({ newUser });
-          })
-          .catch(e => res.status(500).send(e));
+        .catch(e => res.status(500).send(e));
       });
   }
 }
