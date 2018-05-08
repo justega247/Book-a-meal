@@ -5,7 +5,7 @@ import { User } from '../models';
 
 const SECRET = process.env.SECRET;
 
-const authenticate = (req, res, next) => {
+const authenticated = (req, res, next) => {
   const token = req.headers['x-auth'];
 
   if (token) {
@@ -47,7 +47,8 @@ const authenticate = (req, res, next) => {
 };
 
 const findByCredentials = (req, res, next) => {
-  const { userName, password } = req.body;
+  const userName = req.body.userName;
+  const password = req.body.password;
 
   User.findOne({
     where: {
@@ -62,13 +63,13 @@ const findByCredentials = (req, res, next) => {
         req.user = user;
         next();
       } else {
-        return res.status(400).send('Invalid password');
+        return res.status(400).send();
       }
     })
     .catch(e => res.status(400).send(e));
 };
 
 module.exports = {
-  authenticate,
+  authenticated,
   findByCredentials,
 };

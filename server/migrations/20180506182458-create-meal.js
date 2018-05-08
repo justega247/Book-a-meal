@@ -18,6 +18,14 @@ module.exports = {
     category: {
       type: Sequelize.STRING
     },
+    menuId: {
+      allowNull: false,
+      type: Sequelize.INTEGER
+    },
+    orderId: {
+      allowNull: false,
+      type: Sequelize.INTEGER
+    },
     userId: {
       allowNull: false,
       type: Sequelize.INTEGER,
