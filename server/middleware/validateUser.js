@@ -63,7 +63,7 @@ class ValidateUser {
           message: 'Please,check your name for invalid characters'
         });
     }
-     next();
+    next();
   }
 
   /**
