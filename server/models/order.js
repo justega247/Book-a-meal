@@ -8,8 +8,8 @@ module.exports = (sequelize, DataTypes) => {
     });
 
     Order.belongsToMany(models.Meal, {
-      through: OrderMeals,
-      foreignKey: orderId
+      through: 'OrderMeals',
+      foreignKey: 'orderId'
     });
   };
   return Order;

@@ -1,6 +1,4 @@
-import { hashSync } from 'bcrypt';
-
-import saltRounds from '../constants/index';
+import { hashSync } from 'bcrypt-nodejs';
 
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define('User', {
@@ -11,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
       set(val) {
-        this.setDataValue('password', hashSync(val, saltRounds));
+        this.setDataValue('password', hashSync(val));
       },
     },
     status: {
