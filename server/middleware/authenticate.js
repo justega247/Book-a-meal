@@ -31,7 +31,7 @@ const authenticated = (req, res, next) => {
       })
         .then((user) => {
           if (!user) {
-            res.send('No user found');
+            res.status(400).send('No user found');
             return;
           }
           req.user = user;
