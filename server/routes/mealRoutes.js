@@ -6,9 +6,11 @@ import { authenticated } from '../middleware/authenticate';
 
 const router = express.Router();
 
-router.get('/', authenticated, Meals.retrieveMeals);
-router.post('/', authenticated, ValidateMeal.mealDataValidation, Meals.addMeal);
-router.put('/:mealId', authenticated, ValidateMeal.mealUpdateValidation, Meals.updateMeal);
-router.delete('/:mealId', authenticated, Meals.removeMeal);
+router.use('*', authenticated);
+
+router.get('/', Meals.retrieveMeals);
+router.post('/', ValidateMeal.mealDataValidation, Meals.addMeal);
+router.put('/:mealId', ValidateMeal.mealUpdateValidation, Meals.updateMeal);
+router.delete('/:mealId', Meals.removeMeal);
 
 module.exports = router;

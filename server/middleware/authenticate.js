@@ -1,5 +1,6 @@
 import { verify } from 'jsonwebtoken';
 import { compareSync } from 'bcrypt-nodejs';
+import { pick } from 'lodash';
 
 import { User } from '../models';
 
@@ -35,6 +36,10 @@ const authenticated = (req, res, next) => {
             return;
           }
           req.user = user;
+          const userMe = pick(req.user, ['status', 'id']);
+          if (userMe.status !== 'admin') {
+            return res.status(403).send();
+          }
           next();
         })
         .catch((e) => {

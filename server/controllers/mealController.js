@@ -11,21 +11,17 @@ class Meals {
  * @param {param} res
  */
   static retrieveMeals(req, res) {
-    const userMe = pick(req.user, ['status']);
-    if (userMe.status === 'admin') {
-      return Meal.all().then((meals) => {
-        if (meals.length === 0) {
-          return res.status(400).json({
-            message: 'No meals found'
-          });
-        }
-        res.status(200).json({
-          message: 'Success',
-          meals
+    return Meal.all().then((meals) => {
+      if (meals.length === 0) {
+        return res.status(400).json({
+          message: 'No meals found'
         });
+      }
+      res.status(200).json({
+        message: 'Success',
+        meals
       });
-    }
-    return res.status(401).send();
+    });
   }
 
   /**
@@ -34,10 +30,6 @@ class Meals {
  * @param {param} res
  */
   static addMeal(req, res) {
-    const userMe = pick(req.user, ['status', 'Id']);
-    if (userMe.status !== 'admin') {
-      return res.status(401).send();
-    }
     Meal.findOne({
       where: {
         name: req.body.name
@@ -55,7 +47,7 @@ class Meals {
         price: req.body.price,
         imageUrl: req.body.imageUrl.trim(),
         category: req.body.category.trim(),
-        userId: userMe.Id
+        userId: req.user.id
       }).then((dmeal) => {
         const newMeal = pick(dmeal, [
           'name',
@@ -76,10 +68,6 @@ class Meals {
  * @param {param} res
  */
   static updateMeal(req, res) {
-    const userMe = pick(req.user, ['status', 'Id']);
-    if (userMe.status !== 'admin') {
-      return res.status(401).send();
-    }
     Meal.findOne({
       where: {
         name: req.body.name
@@ -135,10 +123,6 @@ class Meals {
  * @param {param} res
  */
   static removeMeal(req, res) {
-    const userMe = pick(req.user, ['status']);
-    if (userMe.status !== 'admin') {
-      return res.status(401).send();
-    }
     const foodId = parseInt(req.params.mealId, 10);
     Meal.findOne({
       where: {

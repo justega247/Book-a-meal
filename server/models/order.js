@@ -1,5 +1,7 @@
 module.exports = (sequelize, DataTypes) => {
-  const Order = sequelize.define('Order', {}, {});
+  const Order = sequelize.define('Order', {
+    title: DataTypes.STRING,
+  }, {});
   Order.associate = (models) => {
     // associations can be defined here
     Order.belongsTo(models.User, {
@@ -8,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
     });
 
     Order.belongsToMany(models.Meal, {
-      through: 'OrderMeals',
+      through: models.OrderMeals,
       foreignKey: 'orderId'
     });
   };

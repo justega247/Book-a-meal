@@ -1,9 +1,12 @@
 import express from 'express';
 
-import Menu from '../controller/menuController';
+import TheMenu from '../controllers/menuController';
+import { authenticated } from '../middleware/authenticate';
 
 const router = express.Router();
 
-router.post('/', Menu.addMenu);
-router.get('/', Menu.retrieveMenu);
+router.use('*', authenticated);
+
+router.post('/', TheMenu.addMenu);
+// router.get('/', Menu.retrieveMenu);
 module.exports = router;
