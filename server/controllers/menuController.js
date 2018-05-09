@@ -1,4 +1,4 @@
-import { Meal, Menu } from '../models';
+import { Menu } from '../models';
 
 /**
  * @class Menu
@@ -14,10 +14,8 @@ class TheMenu {
     Menu.create({
       title: req.body.title,
       userId: req.user.id
-    }).then((myMenu) => {
-      return myMenu.setMeals(myMealsId)
-    })
-    .catch((e) => res.status(400).send());
+    }).then(myMenu => myMenu.setMeals(myMealsId))
+      .catch(e => res.status(400).send(e));
   }
 }
 
