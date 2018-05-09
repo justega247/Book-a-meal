@@ -6,6 +6,10 @@ module.exports = {
       primaryKey: true,
       type: Sequelize.INTEGER
     },
+    title: {
+      type: Sequelize.STRING,
+      allowNull: false,
+    },
     userId: {
       allowNull: false,
       type: Sequelize.INTEGER,
@@ -14,15 +18,6 @@ module.exports = {
         model: 'Users',
         key: 'id',
         as: 'userId',
-      }
-    },
-    mealId: {
-      allowNull: false,
-      type: Sequelize.INTEGER,
-      references: {
-        model: 'Meals',
-        key: 'id',
-        as: 'mealId',
       }
     },
     createdAt: {

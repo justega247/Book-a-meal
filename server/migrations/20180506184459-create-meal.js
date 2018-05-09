@@ -19,16 +19,24 @@ module.exports = {
       type: Sequelize.STRING
     },
     menuId: {
-      allowNull: true,
-      type: Sequelize.INTEGER
+      type: Sequelize.INTEGER,
+      references: {
+        model: 'Menus',
+        key: 'id',
+        as: 'menuId',
+      }
     },
     orderId: {
-      allowNull: true,
-      type: Sequelize.INTEGER
+      type: Sequelize.INTEGER,
+      references: {
+        model: 'Menus',
+        key: 'id',
+        as: 'orderId',
+      }
     },
     userId: {
-      allowNull: true,
       type: Sequelize.INTEGER,
+      allowNull: false,
       onDelete: 'CASCADE',
       references: {
         model: 'Users',

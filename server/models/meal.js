@@ -20,6 +20,16 @@ module.exports = (sequelize, DataTypes) => {
         as: 'orderId',
       }
     },
+    userId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      onDelete: 'CASCADE',
+      references: {
+        model: 'Users',
+        key: 'id',
+        as: 'userId',
+      }
+    },
   }, {});
   Meal.associate = (models) => {
     // associations can be defined here
@@ -33,7 +43,7 @@ module.exports = (sequelize, DataTypes) => {
     });
 
     Meal.belongsToMany(models.Order, {
-      through: 'OrderMeals',
+      through: models.OrderMeals,
       foreignKey: 'mealId'
     });
   };
