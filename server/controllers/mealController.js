@@ -106,7 +106,7 @@ class Meals {
             });
           }
 
-          return meal.update({
+          return meall.update({
             name: req.body.name || meal.name,
             category: req.body.category || meal.category,
             price: req.body.price || meal.price,
@@ -127,6 +127,37 @@ class Meals {
             .catch(e => res.status(400).send(e));
         });
     });
+  }
+
+  /**
+ * @return {Object} leftover meals
+ * @param {param} req
+ * @param {param} res
+ */
+  static removeMeal(req, res) {
+    const userMe = pick(req.user, ['status']);
+    if (userMe.status !== 'admin') {
+      return res.status(401).send();
+    }
+    const foodId = parseInt(req.params.mealId, 10);
+    Meal.findOne({
+      where: {
+        id: foodId
+      }
+    })
+    .then((dmeal) => {
+      if(!dmeal) {
+        return res.status(404).json({
+          message: 'Sorry,there is no meal with that mealId'
+        });
+      }
+      return dmeal
+      .destroy()
+      .then(() => res.status(204).send())
+      .catch(e => res.status(400).send(e));
+    })
+    .catch((e) => res.status(400).send(e));
+
   }
 }
 

@@ -9,6 +9,6 @@ const router = express.Router();
 router.get('/', authenticated, Meals.retrieveMeals);
 router.post('/', authenticated, ValidateMeal.mealDataValidation, Meals.addMeal);
 router.put('/:mealId', authenticated, ValidateMeal.mealUpdateValidation, Meals.updateMeal);
-// router.delete('/:mealId', Meals.removeMeal);
+router.delete('/:mealId', authenticated, Meals.removeMeal);
 
 module.exports = router;
