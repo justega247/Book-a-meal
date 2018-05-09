@@ -145,19 +145,18 @@ class Meals {
         id: foodId
       }
     })
-    .then((dmeal) => {
-      if(!dmeal) {
-        return res.status(404).json({
-          message: 'Sorry,there is no meal with that mealId'
-        });
-      }
-      return dmeal
-      .destroy()
-      .then(() => res.status(204).send())
+      .then((dmeal) => {
+        if (!dmeal) {
+          return res.status(404).json({
+            message: 'Sorry,there is no meal with that mealId'
+          });
+        }
+        return dmeal
+          .destroy()
+          .then(() => res.status(204).send())
+          .catch(e => res.status(400).send(e));
+      })
       .catch(e => res.status(400).send(e));
-    })
-    .catch((e) => res.status(400).send(e));
-
   }
 }
 
