@@ -17,7 +17,11 @@ class TheMenu {
     }).then((myMenu) => {
       myMenu.setMeals(myMealsId);
       return res.status(201).send(myMenu);
-    }).catch(e => res.status(400).send(e));
+    })
+      .catch(() => res.status(500).send({
+        status: false,
+        message: 'Sorry, your request could not be processed'
+      }));
   }
 
   /**
@@ -34,14 +38,18 @@ class TheMenu {
         model: Meal
       }]
     })
-      .then((dmenu) => {
-        dmenu.getMeals({ attributes: ['imageUrl', 'name', 'price'] })
-          .then(dmeals => res.status(200).json({
+      .then((returnedMenu) => {
+        returnedMenu.getMeals({ attributes: ['imageUrl', 'name', 'price'] })
+          .then(mealsFound => res.status(200).json({
+            status: true,
             message: "Today's Menu",
-            dmeals
+            mealsFound
           }));
       })
-      .catch(e => res.status(400).send(e));
+      .catch(() => res.status(500).send({
+        status: false,
+        message: 'Sorry, your request could not be processed'
+      }));
   }
 }
 

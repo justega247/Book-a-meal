@@ -13,12 +13,14 @@ class Meals {
   static retrieveMeals(req, res) {
     return Meal.all().then((meals) => {
       if (meals.length === 0) {
-        return res.status(400).json({
+        return res.status(200).json({
+          status: false,
           message: 'No meals found'
         });
       }
       res.status(200).json({
-        message: 'Success',
+        status: true,
+        message: 'Available meals',
         meals
       });
     });
@@ -38,6 +40,7 @@ class Meals {
       if (meal) {
         res.status(409)
           .json({
+            status: false,
             message: 'Sorry, that meal name already exists'
           });
         return;
@@ -48,17 +51,21 @@ class Meals {
         imageUrl: req.body.imageUrl.trim(),
         category: req.body.category.trim(),
         userId: req.user.id
-      }).then((dmeal) => {
-        const newMeal = pick(dmeal, [
-          'name',
-          'imageUrl',
-          'price'
-        ]);
+      }).then((createdMeal) => {
+        const { name, imageUrl, price } = createdMeal;
         res.status(201).json({
+          status: true,
           message: 'A new meal was just created',
-          newMeal
+          meal: {
+            name,
+            imageUrl,
+            price
+          }
         });
-      }).catch(e => res.status(500).send(e));
+      }).catch(() => res.status(500).send({
+        status: false,
+        message: 'Sorry, your request could not be processed'
+      }));
     });
   }
 
@@ -76,6 +83,7 @@ class Meals {
       if (meal) {
         res.status(409)
           .json({
+            status: false,
             message: 'Sorry, a meal with that name already exists'
           });
         return;
@@ -87,32 +95,39 @@ class Meals {
           id: mealId
         }
       })
-        .then((meall) => {
-          if (!meall) {
-            return res.status(400).json({
+        .then((mealFound) => {
+          if (!mealFound) {
+            return res.status(200).json({
+              status: false,
               message: 'No meal with that Id was found'
             });
           }
 
-          return meall.update({
+          return mealFound.update({
             name: req.body.name || meal.name,
             category: req.body.category || meal.category,
             price: req.body.price || meal.price,
             imageUrl: req.body.imageUrl || meal.imageUrl
           })
             .then((updatedMeal) => {
-              const newMeal = pick(updatedMeal, [
-                'name',
-                'imageUrl',
-                'price',
-                'category'
-              ]);
+              const {
+                name, imageUrl, price, category
+              } = updatedMeal;
               res.status(200).json({
+                status: true,
                 message: 'Meal updated successfully',
-                newMeal
+                meal: {
+                  name,
+                  imageUrl,
+                  price,
+                  category
+                }
               });
             })
-            .catch(e => res.status(400).send(e));
+            .catch(() => res.status(500).send({
+              status: false,
+              message: 'Sorry, your request could not be processed'
+            }));
         });
     });
   }
@@ -129,18 +144,28 @@ class Meals {
         id: foodId
       }
     })
-      .then((dmeal) => {
-        if (!dmeal) {
-          return res.status(404).json({
+      .then((foundMeal) => {
+        if (!foundMeal) {
+          return res.status(200).json({
+            status: false,
             message: 'Sorry,there is no meal with that mealId'
           });
         }
-        return dmeal
+        return foundMeal
           .destroy()
-          .then(() => res.status(204).send())
-          .catch(e => res.status(400).send(e));
+          .then(() => res.status(204).send({
+            status: true,
+            message: 'A meal was just deleted'
+          }))
+          .catch(() => res.status(500).send({
+            status: false,
+            message: 'Sorry, your request could not be processed'
+          }));
       })
-      .catch(e => res.status(400).send(e));
+      .catch(() => res.status(500).send({
+        status: false,
+        message: 'Sorry, your request could not be processed'
+      }));
   }
 }
 

@@ -22,9 +22,13 @@ app.use('/api/v1/menu', menuRoutes);
 app.use('/api/v1/users', userRoutes);
 app.use('/api/v1/orders', orderRoutes);
 
+app.get('/', (req, res) => res.status(200).send({
+  message: 'Welcome to the Book-a-meal App (version 1).'
+}));
+
 // Setup a default catch-all route that sends back a welcome message.
 app.get('*', (req, res) => res.status(200).send({
-  message: 'Welcome to the beginning of greatness.',
+  message: 'Please, check your route details',
 }));
 
 module.exports = app;

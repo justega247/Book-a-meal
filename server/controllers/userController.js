@@ -1,11 +1,8 @@
-import { pick } from 'lodash';
 import { sign } from 'jsonwebtoken';
-import { Op } from 'sequelize';
 
 import { User } from '../models';
-import { TOKEN_EXPIRATION_TIME } from '../constants/index';
 
-const { SECRET } = process.env;
+const { SECRET, TOKEN_EXPIRATION_TIME } = process.env;
 
 /**
  * @class Users
@@ -19,7 +16,7 @@ class Users {
   static addUser(req, res) {
     User.findOne({
       where: {
-        [Op.or]: [
+        $or: [
           { userName: req.body.userName.trim() },
           { email: req.body.email.trim() }
         ]
@@ -57,25 +54,29 @@ class Users {
           password: req.body.password,
           email: req.body.email.trim(),
           status: req.body.status.trim() || 'customer'
-        }).then((duser) => {
+        }).then((createdUser) => {
           const token = sign(
             {
-              id: duser.id
+              id: createdUser.id
             },
             SECRET,
             {
               expiresIn: TOKEN_EXPIRATION_TIME
             }
           );
-          const newUser = pick(duser, [
-            'id',
-            'userName',
-            'fullName',
-            'email'
-          ]);
-          res.header('x-auth', token).status(201).send({ newUser });
+          const {
+            id, userName, fullName, email
+          } = createdUser;
+          res.header('x-auth', token).status(201).send({
+            id,
+            userName,
+            fullName,
+            email
+          });
         })
-          .catch(e => res.status(500).send(e));
+          .catch(() => res.status(500).send({
+            message: 'Sorry,your request could not be processed'
+          }));
       });
   }
 
@@ -85,12 +86,15 @@ class Users {
  * @param {param} res
  */
   static signinUser(req, res) {
-    const body = pick(req.user, ['userName', 'id']);
+    const { id, userName } = req.user;
     const token = sign(
-      { id: body.id }, SECRET,
+      { id }, SECRET,
       { expiresIn: TOKEN_EXPIRATION_TIME }
     );
-    res.header('x-auth', token).status(200).send(body);
+    res.header('x-auth', token).status(200).send({
+      id,
+      userName
+    });
   }
 }
 
