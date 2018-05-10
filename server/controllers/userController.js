@@ -5,7 +5,7 @@ import { Op } from 'sequelize';
 import { User } from '../models';
 import { TOKEN_EXPIRATION_TIME } from '../constants/index';
 
-const SECRET = process.env.SECRET;
+const { SECRET } = process.env;
 
 /**
  * @class Users
