@@ -1,4 +1,3 @@
-'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.createTable('Orders', {
@@ -13,6 +12,23 @@ module.exports = {
       },
       quantity: {
         type: Sequelize.INTEGER
+      },
+      userId: {
+        type: Sequelize.INTEGER,
+        onDelete: 'CASCADE',
+        references: {
+          model: 'Users',
+          key: 'id',
+          as: 'userId',
+        },
+      },
+      mealId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Meals',
+          key: 'id',
+          as: 'mealId',
+        },
       },
       createdAt: {
         allowNull: false,

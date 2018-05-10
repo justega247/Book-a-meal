@@ -1,4 +1,3 @@
-'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.createTable('Users', {
@@ -21,7 +20,9 @@ module.exports = {
         type: Sequelize.STRING
       },
       status: {
-        type: Sequelize.ENUM
+        allowNull: false,
+        type: Sequelize.ENUM('customer', 'admin'),
+        defaultValue: 'customer',
       },
       createdAt: {
         allowNull: false,
