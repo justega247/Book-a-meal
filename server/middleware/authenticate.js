@@ -1,10 +1,9 @@
 import { verify } from 'jsonwebtoken';
 import { compareSync } from 'bcrypt-nodejs';
-import { pick } from 'lodash';
 
 import { User } from '../models';
 
-const SECRET = process.env.SECRET;
+const { SECRET } = process.env;
 
 const authenticated = (req, res, next) => {
   const token = req.headers['x-auth'];
@@ -21,7 +20,7 @@ const authenticated = (req, res, next) => {
             .status(401)
             .send('jwt malformed');
         }
-        return res
+        return res.status(401)
           .send('Authentication failed, you need to login or register');
       }
       req.decoded = decoded;
@@ -36,8 +35,8 @@ const authenticated = (req, res, next) => {
             return;
           }
           req.user = user;
-          const userMe = pick(req.user, ['status', 'id']);
-          if (userMe.status !== 'admin') {
+          const { status } = req.user;
+          if (status !== 'admin') {
             return res.status(403).send();
           }
           next();
@@ -52,8 +51,7 @@ const authenticated = (req, res, next) => {
 };
 
 const findByCredentials = (req, res, next) => {
-  const userName = req.body.userName;
-  const password = req.body.password;
+  const { userName, password } = req.body;
 
   User.findOne({
     where: {
@@ -74,7 +72,49 @@ const findByCredentials = (req, res, next) => {
     .catch(e => res.status(400).send(e));
 };
 
+const authenticateme = (req, res, next) => {
+  const token = req.headers['x-auth'];
+
+  if (token) {
+    verify(token, SECRET, (err, decoded) => {
+      if (err) {
+        if (err.name === 'TokenExpiredError') {
+          return res
+            .status(401)
+            .send('Current session expired,please login to continue');
+        } else if (err.name === 'JsonWebTokenError') {
+          return res
+            .status(401)
+            .send('jwt malformed');
+        }
+        return res.status(401)
+          .send('Authentication failed, you need to login or register');
+      }
+      req.decoded = decoded;
+      User.findOne({
+        where: {
+          id: decoded.id
+        }
+      })
+        .then((user) => {
+          if (!user) {
+            res.status(400).send('No user found');
+            return;
+          }
+          req.user = user;
+          next();
+        })
+        .catch((e) => {
+          res.status(401).send(e);
+        });
+    });
+  } else {
+    res.status(401).send();
+  }
+};
+
 module.exports = {
   authenticated,
+  authenticateme,
   findByCredentials,
 };
