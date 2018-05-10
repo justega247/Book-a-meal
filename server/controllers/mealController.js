@@ -110,7 +110,9 @@ class Meals {
             imageUrl: req.body.imageUrl || meal.imageUrl
           })
             .then((updatedMeal) => {
-              const { name, imageUrl, price, category } = updatedMeal;
+              const {
+                name, imageUrl, price, category
+              } = updatedMeal;
               res.status(200).json({
                 status: true,
                 message: 'Meal updated successfully',

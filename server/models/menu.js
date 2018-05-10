@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-  var Menu = sequelize.define('Menu', {
+  const Menu = sequelize.define('Menu', {
     title: DataTypes.STRING
   }, {});
   Menu.associate = (models) => {

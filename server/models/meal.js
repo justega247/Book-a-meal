@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-  var Meal = sequelize.define('Meal', {
+  const Meal = sequelize.define('Meal', {
     name: DataTypes.STRING,
     price: DataTypes.STRING,
     imageUrl: DataTypes.STRING,

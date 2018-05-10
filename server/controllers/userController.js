@@ -64,13 +64,15 @@ class Users {
               expiresIn: TOKEN_EXPIRATION_TIME
             }
           );
-          const { id, userName, fullName, email } = createdUser;
+          const {
+            id, userName, fullName, email
+          } = createdUser;
           res.header('x-auth', token).status(201).send({
             id,
             userName,
             fullName,
             email
-           });
+          });
         })
           .catch(() => res.status(500).send({
             message: 'Sorry,your request could not be processed'

@@ -1,7 +1,7 @@
 import express from 'express';
 
-//import Orders from '../controller/orderController';
-//import { authenticateme } from '../middleware/authenticate';
+// import Orders from '../controller/orderController';
+// import { authenticateme } from '../middleware/authenticate';
 
 const router = express.Router();
 

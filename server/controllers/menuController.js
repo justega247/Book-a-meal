@@ -18,10 +18,10 @@ class TheMenu {
       myMenu.setMeals(myMealsId);
       return res.status(201).send(myMenu);
     })
-    .catch(() => res.status(500).send({
-      status: false,
-      message: 'Sorry, your request could not be processed'
-    }));
+      .catch(() => res.status(500).send({
+        status: false,
+        message: 'Sorry, your request could not be processed'
+      }));
   }
 
   /**
