@@ -1,4 +1,3 @@
-import { pick } from 'lodash';
 import { Meal } from '../models';
 
 /**
@@ -32,9 +31,11 @@ class Meals {
  * @param {param} res
  */
   static addMeal(req, res) {
+    let { name, category, price, imageUrl } = req.body;
+    name = name.trim().toLowerCase();
     Meal.findOne({
       where: {
-        name: req.body.name
+        name: name
       }
     }).then((meal) => {
       if (meal) {
@@ -46,10 +47,10 @@ class Meals {
         return;
       }
       return Meal.create({
-        name: req.body.name.trim(),
+        name: req.body.name.trim().toLowerCase(),
         price: req.body.price,
         imageUrl: req.body.imageUrl.trim(),
-        category: req.body.category.trim(),
+        category: req.body.category.trim().toLowerCase(),
         userId: req.user.id
       }).then((createdMeal) => {
         const { name, imageUrl, price } = createdMeal;
@@ -62,7 +63,7 @@ class Meals {
             price
           }
         });
-      }).catch(() => res.status(500).send({
+      }).catch(() => res.status(500).json({
         status: false,
         message: 'Sorry, your request could not be processed'
       }));
@@ -75,21 +76,22 @@ class Meals {
  * @param {param} res
  */
   static updateMeal(req, res) {
+    const mealId = parseInt(req.params.mealId, 10);
     Meal.findOne({
       where: {
         name: req.body.name
       }
     }).then((meal) => {
       if (meal) {
-        res.status(409)
-          .json({
-            status: false,
-            message: 'Sorry, a meal with that name already exists'
-          });
-        return;
+        if (meal.id !== mealId) {
+          res.status(409)
+            .json({
+              status: false,
+              message: 'Sorry, a meal with that name already exists'
+            });
+          return;
+        }
       }
-      const mealId = parseInt(req.params.mealId, 10);
-
       return Meal.findOne({
         where: {
           id: mealId
@@ -104,10 +106,10 @@ class Meals {
           }
 
           return mealFound.update({
-            name: req.body.name || meal.name,
-            category: req.body.category || meal.category,
-            price: req.body.price || meal.price,
-            imageUrl: req.body.imageUrl || meal.imageUrl
+            name: req.body.name.trim().toLowerCase() || mealFound.name,
+            category: req.body.category.trim().toLowerCase() || mealFound.category,
+            price: req.body.price || mealFound.price,
+            imageUrl: req.body.imageUrl || mealFound.imageUrl
           })
             .then((updatedMeal) => {
               const {
@@ -124,7 +126,7 @@ class Meals {
                 }
               });
             })
-            .catch(() => res.status(500).send({
+            .catch(() => res.status(500).json({
               status: false,
               message: 'Sorry, your request could not be processed'
             }));
@@ -153,16 +155,12 @@ class Meals {
         }
         return foundMeal
           .destroy()
-          .then(() => res.status(204).send({
+          .then(() => res.status(200).json({
             status: true,
             message: 'A meal was just deleted'
           }))
-          .catch(() => res.status(500).send({
-            status: false,
-            message: 'Sorry, your request could not be processed'
-          }));
       })
-      .catch(() => res.status(500).send({
+      .catch(() => res.status(500).json({
         status: false,
         message: 'Sorry, your request could not be processed'
       }));

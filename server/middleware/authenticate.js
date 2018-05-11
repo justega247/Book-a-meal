@@ -14,14 +14,23 @@ const authenticated = (req, res, next) => {
         if (err.name === 'TokenExpiredError') {
           return res
             .status(401)
-            .send('Current session expired,please login to continue');
+            .json({
+              status: false,
+              message: 'Current session expired,please login to continue'
+            });
         } else if (err.name === 'JsonWebTokenError') {
           return res
             .status(401)
-            .send('jwt malformed');
+            .json({
+              status: false,
+              message: 'Sorry, you are not authorized to continue'
+            });
         }
         return res.status(401)
-          .send('Authentication failed, you need to login or register');
+          .json({
+            status: false,
+            message: 'Authentication failed, you need to login or register'
+          });
       }
       req.decoded = decoded;
       User.findOne({
@@ -31,22 +40,32 @@ const authenticated = (req, res, next) => {
       })
         .then((user) => {
           if (!user) {
-            res.status(400).send('No user found');
+            res.status(200).json({
+              status: false,
+              message: 'No user found'
+            });
             return;
           }
           req.user = user;
           const { status } = req.user;
           if (status !== 'admin') {
-            return res.status(403).send();
+            return res.status(403).json({
+              status: false,
+              message: 'Sorry, you are not authorized to use this endpoint'
+            });
           }
           next();
         })
-        .catch((e) => {
-          res.status(401).send(e);
-        });
+        .catch(() => res.status(500).json({
+          status: false,
+          message: 'Sorry, your request could not be processed'
+        }));
     });
   } else {
-    res.status(401).send();
+    res.status(401).json({
+      status: false,
+      message: 'Authentication failed'
+    });
   }
 };
 
@@ -61,15 +80,19 @@ const findByCredentials = (req, res, next) => {
     .then((user) => {
       if (!user) {
         return res.status(404)
-          .send('No user found with that username.');
+          .json({
+            status: false,
+            message: 'No user found with that username.'
+          });
       } else if (compareSync(password, user.password)) {
         req.user = user;
         next();
-      } else {
-        return res.status(400).send();
       }
     })
-    .catch(e => res.status(400).send(e));
+    .catch(() => res.status(500).json({
+      status: false,
+      message: 'Sorry, your request could not be processed'
+    }));
 };
 
 const authenticateme = (req, res, next) => {
@@ -81,14 +104,23 @@ const authenticateme = (req, res, next) => {
         if (err.name === 'TokenExpiredError') {
           return res
             .status(401)
-            .send('Current session expired,please login to continue');
+            .json({
+              status: false,
+              message: 'Current session expired,please login to continue'
+            });
         } else if (err.name === 'JsonWebTokenError') {
           return res
             .status(401)
-            .send('jwt malformed');
+            .json({
+              status: false,
+              message: 'Sorry, you are not authorized to continue'
+            });
         }
         return res.status(401)
-          .send('Authentication failed, you need to login or register');
+          .json({
+            status: false,
+            message: 'Authentication failed, you need to login or register'
+          });
       }
       req.decoded = decoded;
       User.findOne({
@@ -98,18 +130,25 @@ const authenticateme = (req, res, next) => {
       })
         .then((user) => {
           if (!user) {
-            res.status(400).send('No user found');
+            res.status(200).json({
+              status: false,
+              message: 'Sorry, no user with a matching id was found'
+            });
             return;
           }
           req.user = user;
           next();
         })
-        .catch((e) => {
-          res.status(401).send(e);
-        });
+        .catch(() => res.status(500).json({
+          status: false,
+          message: 'Sorry, your request could not be processed'
+        }));
     });
   } else {
-    res.status(401).send();
+    res.status(401).json({
+      status: false,
+      message: 'Your authentication has failed'
+    });
   }
 };
 

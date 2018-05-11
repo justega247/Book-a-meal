@@ -14,62 +14,33 @@ class ValidateMeal {
    * @return {void}
    */
   static mealDataValidation(req, res, next) {
-    const { name, category, price, } = req.body;
-    if (!name || name.trim() === '') {
-      return res.status(400)
-        .json({
-          message: 'Sorry, it seems your meal name is empty'
-        });
+    const error = [];
+    let { name, category, price, } = req.body;
+    name = name.trim();
+    category = category.trim();
+    const re = /\s/g;
+    const nameStr = name.toLowerCase().replace(re, '');
+    const categoryStr = category.toLowerCase().replace(re, '');
+
+    if (!nameStr || nameStr.length < 2 || /[^a-z]/i.test(nameStr)) {
+      error.push({ name: 'Your meal name is invalid' });
     }
 
-    if (name.trim().length < 2) {
-      return res.status(400)
-        .json({
-          message: 'Sorry, your meal name has to be longer'
-        });
+    if (categoryStr.length < 2 || /[^a-z]/i.test(categoryStr)) {
+      error.push({ category: 'The category you have specified is invalid!' });
     }
 
-    if (category.trim().length < 2) {
-      return res.status(400)
-        .json({
-          message: 'Sorry, your category name has to be longer'
-        });
+    if (!price || !Number.isInteger(price)) {
+      error.push({ price: 'The price you have specified is invalid!' });
     }
 
-    if (category.trim() === '') {
-      return res.status(400)
-        .json({
-          message: 'Sorry, meal category cannot be empty'
-        });
+    if (error.length > 0) {
+      return res.status(400).json({
+        status: false,
+        error
+      });
     }
 
-    if (!price) {
-      return res.status(400)
-        .json({
-          message: 'Please, you need to specify a price'
-        });
-    }
-
-    if (name.trim().match(/[\w\s]+/) === false) {
-      return res.status(400)
-        .json({
-          message: 'Sorry, that meal name is not valid'
-        });
-    }
-
-    if (!Number.isInteger(price)) {
-      return res.status(400)
-        .json({
-          message: 'Sorry, your price value can only be an integer'
-        });
-    }
-
-    if (!validator.isAlpha(category)) {
-      return res.status(400)
-        .json({
-          message: 'Sorry, the category you have entered in, is invalid'
-        });
-    }
     next();
   }
 
@@ -83,30 +54,35 @@ class ValidateMeal {
    * @return {void}
    */
   static mealUpdateValidation(req, res, next) {
-    const { price, name, category } = req.body;
+    const error = [];
+    let { name, category, price, } = req.body;
+    name = name.trim();
+    category = category.trim();
+    const re = /\s/g;
+    const nameStr = name.toLowerCase().replace(re, '');
+    const categoryStr = category.toLowerCase().replace(re, '');
 
-    if (name && name.trim().length < 2) {
-      return res.status(400)
-        .json({
-          message: 'Sorry, your meal name has to be longer'
-        });
+    if (nameStr && nameStr.length < 2) {
+      error.push({ name: 'Sorry, your meal name is invalid' });
     }
 
-    if (category && category.trim().length < 2) {
-      return res.status(400)
-        .json({
-          message: 'Sorry, your category name has to be longer'
-        });
+    if (categoryStr && categoryStr.length < 2) {
+      error.push({ category: 'Sorry, your meal category is invalid' });
     }
 
     if (price) {
       if (!Number.isInteger(price)) {
-        return res.status(400)
-          .json({
-            message: 'Sorry, you cannot update the price field with that value'
-          });
+        error.push({ price: 'Sorry, your meal price is invalid' });
       }
     }
+
+    if (error.length > 0) {
+      return res.status(400).json({
+        status: false,
+        error
+      });
+    }
+
     next();
   }
 }
