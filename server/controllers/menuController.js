@@ -16,9 +16,12 @@ class TheMenu {
       userId: req.user.id
     }).then((myMenu) => {
       myMenu.setMeals(myMealsId);
-      return res.status(201).send(myMenu);
+      return res.status(201).json({
+        status: true,
+        message: 'A new menu,was just created'
+      });
     })
-      .catch(() => res.status(500).send({
+      .catch(() => res.status(500).json({
         status: false,
         message: 'Sorry, your request could not be processed'
       }));
@@ -39,16 +42,18 @@ class TheMenu {
       }]
     })
       .then((returnedMenu) => {
-        returnedMenu.getMeals({ attributes: ['imageUrl', 'name', 'price'] })
+        returnedMenu.getMeals({
+            attributes: ['id', 'imageUrl', 'name', 'price']
+          })
           .then(mealsFound => res.status(200).json({
             status: true,
             message: "Today's Menu",
             mealsFound
           }));
       })
-      .catch(() => res.status(500).send({
+      .catch(() => res.status(404).json({
         status: false,
-        message: 'Sorry, your request could not be processed'
+        message: 'Sorry, no menu with that id'
       }));
   }
 }

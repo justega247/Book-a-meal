@@ -14,55 +14,43 @@ class ValidateUser {
    * @return {void}
    */
   static signUpDataValidation(req, res, next) {
-    if (!validator.isEmail(req.body.email.trim())) {
-      return res.status(422)
-        .json({
-          message: 'Sorry, your email does not match the email format'
-        });
+    const error = [];
+    let {
+      userName, fullName, email, password
+    } = req.body;
+    userName = userName.trim();
+    fullName = fullName.trim();
+    const re = /\s/g;
+    const userNameStr = userName.replace(re, '');
+    const fullNameStr = fullName.toLowerCase().replace(re, '');
+
+    if (!validator.isEmail(email.trim())) {
+      error.push({ email: 'Sorry, your email is invalid' });
     }
 
-    if (!validator.isAlphanumeric(req.body.userName.trim())
-      || req.body.userName.trim() === '') {
-      return res.status(400)
-        .json({
-          message: 'Sorry,username can only contain alphanumeric characters'
-        });
+    if (!validator.isAlphanumeric(userNameStr)
+      || userNameStr === ''
+      || userNameStr.length < 3) {
+      error.push({ userName: 'Sorry, your username is invalid' });
     }
 
-    if (!req.body.password || req.body.password.trim() === '') {
-      return res.status(400)
-        .json({
-          message: 'Sorry, you have to specify a password'
-        });
+    if (!password
+        || password.trim() === ''
+        || password.trim().length < 6) {
+      error.push({ password: 'Sorry, your password is invalid' });
     }
 
-    if (req.body.userName.trim().length < 3) {
-      return res.status(400)
-        .json({
-          message: 'Sory, your username must be 3 characters or more'
-        });
+    if (!fullNameStr || fullNameStr < 2 || /[^a-z]/i.test(fullNameStr)) {
+      error.push({ fullName: 'Sorry, your fullName is invalid' });
     }
 
-    if (req.body.password.trim().length < 6) {
-      return res.status(400)
-        .json({
-          message: 'Sorry, your password must be 6 characters or more'
-        });
+    if (error.length > 0) {
+      return res.status(400).json({
+        status: false,
+        error
+      });
     }
 
-    if (!req.body.fullName || req.body.fullName.trim() === '') {
-      return res.status(400)
-        .json({
-          message: 'Sorry, you have not provided your fullName'
-        });
-    }
-
-    if (req.body.fullName.trim().match(/[\w\s]+/) === false) {
-      return res.status(400)
-        .json({
-          message: 'Please,check your name for invalid characters'
-        });
-    }
     next();
   }
 
@@ -76,19 +64,22 @@ class ValidateUser {
    * @return {void}
    */
   static signInDataValidation(req, res, next) {
-    if (!req.body.username || req.body.username.trim() === '') {
-      return res.status(400)
-        .json({
-          message: 'Sorry, your username is required'
-        });
+    const error = [];
+    if (!req.body.userName || req.body.userName.trim() === '') {
+      error.push({ userName: 'The userName you have entered is invalid' });
     }
 
     if (!req.body.password || req.body.password.trim() === '') {
-      return res.status(400)
-        .json({
-          message: 'Sorry, your password is required'
-        });
+      error.push({ password: 'The password you have entered is invalid' });
     }
+
+    if (error.length > 0) {
+      return res.status(400).json({
+        status: false,
+        error
+      });
+    }
+
     next();
   }
 }

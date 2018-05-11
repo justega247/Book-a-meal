@@ -48,35 +48,47 @@ class Users {
           }
           return;
         }
-        return User.create({
-          userName: req.body.userName.trim(),
-          fullName: req.body.fullName.trim(),
-          password: req.body.password,
-          email: req.body.email.trim(),
-          status: req.body.status.trim() || 'customer'
-        }).then((createdUser) => {
-          const token = sign(
-            {
-              id: createdUser.id
-            },
-            SECRET,
-            {
-              expiresIn: TOKEN_EXPIRATION_TIME
-            }
-          );
-          const {
-            id, userName, fullName, email
-          } = createdUser;
-          res.header('x-auth', token).status(201).send({
-            id,
-            userName,
-            fullName,
-            email
-          });
-        })
-          .catch(() => res.status(500).send({
-            message: 'Sorry,your request could not be processed'
-          }));
+        User.all().then((allUsers) => {
+          const oneUser = allUsers.find(one => one.status === 'admin');
+          if (oneUser && req.body.status === 'admin') {
+            return res.status(200).json({
+              status: false,
+              message: 'Sorry, an admin already exists'
+            });
+          }
+          return User.create({
+            userName: req.body.userName.trim(),
+            fullName: req.body.fullName.trim(),
+            password: req.body.password,
+            email: req.body.email.trim(),
+            status: req.body.status.trim() || 'customer'
+          }).then((createdUser) => {
+            const token = sign(
+              {
+                id: createdUser.id
+              },
+              SECRET,
+              {
+                expiresIn: TOKEN_EXPIRATION_TIME
+              }
+            );
+            const {
+              id, userName, fullName, email, createdAt
+            } = createdUser;
+            res.header('x-auth', token).status(201).json({
+              status: true,
+              id,
+              userName,
+              fullName,
+              email,
+              createdAt
+            });
+          })
+            .catch(() => res.status(500).json({
+              status: false,
+              message: 'Sorry,your request could not be processed'
+            }));
+        });
       });
   }
 
@@ -91,7 +103,7 @@ class Users {
       { id }, SECRET,
       { expiresIn: TOKEN_EXPIRATION_TIME }
     );
-    res.header('x-auth', token).status(200).send({
+    res.header('x-auth', token).status(200).json({
       id,
       userName
     });
