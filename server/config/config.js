@@ -18,7 +18,17 @@ module.exports = {
     dialect: process.env.DIALECT
   },
   production: {
-    use_env_variable: process.env.DATABASE_URL,
-    dialect: 'postgres'
+    username: 'eofikimhuhceex',
+    password: '30b4814635e3500b2f5fa84c51e6ab5766b85e8fe0ceaee3cffe5db63bea9eb2',
+    database: 'df0agkkpr52712',
+    host: 'ec2-50-16-196-238.compute-1.amazonaws.com',
+    port: 5432,
+    dialect: 'postgres',
+    ssl: true,
+    dialectOptions: {
+      ssl: {
+        require: true
+      }
+    }
   }
 };
